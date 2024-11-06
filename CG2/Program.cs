@@ -1,3 +1,7 @@
+using System.Numerics;
+using System.IO;
+using System.Net;
+
 namespace CG2
 {
     internal static class Program
@@ -12,6 +16,18 @@ namespace CG2
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new ShapeForm());
+        }
+
+        static void ReadStartVerticesFromFile(string fileName, List<Vector3> lsitOfPoints)
+        {
+            using (FileStream fs = File.OpenRead($"./{fileName}"))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string tmp;
+                    // TODO: End a parsing process. After I should start implementing main class for storing a shape.
+                }
+            }
         }
     }
 }
