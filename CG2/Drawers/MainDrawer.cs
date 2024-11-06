@@ -81,15 +81,15 @@ namespace CG2.Drawers
             float cosOfZ = MathF.Cos(ZAngle);
             float cosOfX = MathF.Cos(XAngle);
             // Changing for ZTransformMatrix
-            _zTransformMatrix[1, 1] = cosOfZ;
-            _zTransformMatrix[1, 2] = -sinOfZ;
-            _zTransformMatrix[2, 1] = sinOfZ;
-            _zTransformMatrix[2, 2] = cosOfX;
+            _zTransformMatrix[0, 0] = cosOfZ;
+            _zTransformMatrix[0, 1] = -sinOfZ;
+            _zTransformMatrix[1, 0] = sinOfZ;
+            _zTransformMatrix[1, 1] = cosOfX;
             // Changing git XTransformMatrix
-            _xTransformMatrix[0, 0] = cosOfX;
-            _xTransformMatrix[0, 1] = -sinOfX;
-            _xTransformMatrix[1, 0] = sinOfX;
             _xTransformMatrix[1, 1] = cosOfX;
+            _xTransformMatrix[1, 2] = -sinOfX;
+            _xTransformMatrix[2, 1] = sinOfX;
+            _xTransformMatrix[2, 2] = cosOfX;
         }
 
         public void Draw(Graphics g)
@@ -101,23 +101,25 @@ namespace CG2.Drawers
         {
             // I assume, that I have 16 control points.
             Vector3 tmp;
+            Vector3 tmp2;
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    tmp = Plane.ControlPoints[size * i + j];
-                    Plane.ControlPoints[size * i + j] = Vector3.Transform(tmp, _xTransformMatrix);
-                    Plane.ControlPoints[size * i + j] = Vector3.Transform(tmp, _zTransformMatrix);
+                    tmp = Vector3.Transform(Plane.ControlPoints[size * i + j], _zTransformMatrix);
+                    tmp = Vector3.Transform(tmp, _xTransformMatrix);
                     g.DrawEllipse(ControlPen, tmp.X - 2, tmp.Y - 2, 4, 4);
                     if ((j - 1) >= 0)
                     {
-                        g.DrawLine(ControlPen, Plane.ControlPoints[size * i + j].X, Plane.ControlPoints[size * i + j].Y,
-                            Plane.ControlPoints[size * i + j - 1].X, Plane.ControlPoints[size * i + j - 1].Y);
+                        tmp2 = Vector3.Transform(Plane.ControlPoints[size * i + j - 1], _zTransformMatrix);
+                        tmp2 = Vector3.Transform(tmp2, _xTransformMatrix);
+                        g.DrawLine(ControlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                     if ((i - 1) >= 0)
                     {
-                        g.DrawLine(ControlPen, Plane.ControlPoints[size * i + j].X, Plane.ControlPoints[size * i + j].Y,
-                            Plane.ControlPoints[size * (i - 1) + j].X, Plane.ControlPoints[size * (i - 1) + j].Y);
+                        tmp2 = Vector3.Transform(Plane.ControlPoints[size * (i - 1) + j], _zTransformMatrix);
+                        tmp2 = Vector3.Transform(tmp2, _xTransformMatrix);
+                        g.DrawLine(ControlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                 }
             }

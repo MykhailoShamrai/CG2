@@ -16,6 +16,15 @@ namespace CG2
             InitializeComponent();
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
             MainDrawer = new MainDrawer(Plane);
+
+            TrackAroundZ.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
+            TrackAroundZ.Maximum = (int)Math.Round(1000 * Math.PI / 4);
+            TrackAroundZ.TickFrequency = 100;
+            TrackAroundX.Minimum = (int)Math.Round(1000 * -Math.PI / 18);
+            TrackAroundX.Maximum = (int)Math.Round(1000 * Math.PI / 18);
+            TrackAroundX.TickFrequency = 100;
+
+
             PictureBoxMain.Refresh();
         }
 
@@ -47,6 +56,18 @@ namespace CG2
             g.TranslateTransform(PictureBoxMain.Width / 2, -PictureBoxMain.Height / 2);
 
             MainDrawer.Draw(g);
+        }
+
+        private void TrackAroundZ_Scroll(object sender, EventArgs e)
+        {
+            MainDrawer.ZAngle = (float)TrackAroundZ.Value / 1000;
+            Refresh();
+        }
+
+        private void TrackAroundX_Scroll(object sender, EventArgs e)
+        {
+            MainDrawer.XAngle = (float)TrackAroundX.Value / 1000;
+            Refresh();
         }
     }
 }
