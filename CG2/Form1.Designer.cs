@@ -56,6 +56,7 @@
             PictureBoxMain.Size = new Size(736, 547);
             PictureBoxMain.TabIndex = 0;
             PictureBoxMain.TabStop = false;
+            PictureBoxMain.Paint += PictureBoxMain_Paint;
             // 
             // ShapeForm
             // 
