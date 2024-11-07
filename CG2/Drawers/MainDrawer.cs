@@ -12,7 +12,9 @@ namespace CG2.Drawers
 {
     public class MainDrawer
     {
+        public int LevelOfTriang { get; set; } = 0;
         public Pen ControlPen = new Pen(Color.Crimson);
+        public Pen TriangleBorderPen = new Pen(Color.BlueViolet);
         public MyPlane Plane { get; set; }
         // beta angle
         private float _xAngle = 0;
@@ -95,6 +97,7 @@ namespace CG2.Drawers
         public void Draw(Graphics g)
         {
             DrawControlPoints(g);
+            DrawBordersOfTriangles(g);
         }
 
         public void DrawControlPoints(Graphics g, int size = 4)
@@ -122,6 +125,19 @@ namespace CG2.Drawers
                         g.DrawLine(ControlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                 }
+            }
+        }
+
+        public void DrawBordersOfTriangles(Graphics g)
+        {
+            foreach (var triangle in Plane.Triangles)
+            {
+                g.DrawLine(TriangleBorderPen, new Point((int)triangle.First.OriginalPosition.X, (int)triangle.First.OriginalPosition.Y),
+                    new Point((int)triangle.Second.OriginalPosition.X, (int)triangle.Second.OriginalPosition.Y));
+                g.DrawLine(TriangleBorderPen, new Point((int)triangle.Second.OriginalPosition.X, (int)triangle.Second.OriginalPosition.Y),
+                    new Point((int)triangle.Third.OriginalPosition.X, (int)triangle.Third.OriginalPosition.Y));
+                g.DrawLine(TriangleBorderPen, new Point((int)triangle.Third.OriginalPosition.X, (int)triangle.Third.OriginalPosition.Y),
+                    new Point((int)triangle.First.OriginalPosition.X, (int)triangle.First.OriginalPosition.Y));
             }
         }
     }

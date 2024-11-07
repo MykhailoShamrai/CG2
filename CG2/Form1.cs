@@ -12,16 +12,17 @@ namespace CG2
 
         public ShapeForm()
         {
-            Plane = new MyPlane();
             InitializeComponent();
+            Plane = new MyPlane();
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
+            Plane.Triangularization();
             MainDrawer = new MainDrawer(Plane);
 
             TrackAroundZ.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundZ.Maximum = (int)Math.Round(1000 * Math.PI / 4);
             TrackAroundZ.TickFrequency = 100;
-            TrackAroundX.Minimum = (int)Math.Round(1000 * -Math.PI / 18);
-            TrackAroundX.Maximum = (int)Math.Round(1000 * Math.PI / 18);
+            TrackAroundX.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
+            TrackAroundX.Maximum = (int)Math.Round(1000 * Math.PI / 4);
             TrackAroundX.TickFrequency = 100;
 
 
