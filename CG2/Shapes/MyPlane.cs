@@ -15,6 +15,7 @@ namespace CG2.Shapes
         private readonly int _baseDimTriang = 4;
         private readonly int _dim = 4;
         public List<Vector3> ControlPoints { get; set; }
+        public List<Vector3> RotatedControlPoints { get; set; }
         public List<Triangle> Triangles { get; set; }
         private float _xAngle = 0;
         private float _zAngle = 0;
@@ -70,6 +71,7 @@ namespace CG2.Shapes
         public MyPlane()
         {
             ControlPoints = new List<Vector3>();
+            //RotatedControlPoints = new List<Vector3>();
             Triangles = new List<Triangle>();
             //Triangularization();
             AngleChanged += ChangeRotationMatrices;
@@ -85,14 +87,14 @@ namespace CG2.Shapes
             _zTransformMatrix[0, 0] = cosOfZ;
             _zTransformMatrix[0, 1] = -sinOfZ;
             _zTransformMatrix[1, 0] = sinOfZ;
-            _zTransformMatrix[1, 1] = cosOfX;
+            _zTransformMatrix[1, 1] = cosOfZ;
             // Changing git XTransformMatrix
             _xTransformMatrix[1, 1] = cosOfX;
             _xTransformMatrix[1, 2] = -sinOfX;
             _xTransformMatrix[2, 1] = sinOfX;
             _xTransformMatrix[2, 2] = cosOfX;
 
-            RotateAllTriangles();
+            RotateAllPoints();
         }
 
         public void Triangularization()
@@ -175,17 +177,24 @@ namespace CG2.Shapes
             return temp * secondNumerator * thirdNumerator;
         }
 
+        public Vector3 RotateAPoint(Vector3 point)
+        {
+            return Vector3.Transform(Vector3.Transform(point, _xTransformMatrix), _zTransformMatrix);
+        }
 
-        public void RotateAllTriangles()
+        public void RotateAllPoints()
         {
             foreach (Triangle triangle in Triangles)
             {
                 foreach (MyVertex vert in triangle.Points)
                 {
-                    vert.RotatedPosition = Vector3.Transform(Vector3.Transform(vert.OriginalPosition, _xTransformMatrix), _zTransformMatrix);
+                    vert.RotatedPosition = RotateAPoint(vert.OriginalPosition);
                 }
+            }
+            for (int i = 0; i < ControlPoints.Count; i++)
+            {
+                RotatedControlPoints[i] = RotateAPoint(ControlPoints[i]);
             }
         }
     }
-
 }

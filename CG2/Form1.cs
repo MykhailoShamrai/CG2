@@ -18,6 +18,7 @@ namespace CG2
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
+            Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
             Plane.Triangularization();
             MainDrawer = new MainDrawer(Plane);
 
@@ -63,15 +64,13 @@ namespace CG2
         }
 
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
-        {
-            MainDrawer.ZAngle = (float)TrackAroundZ.Value / 1000;
+        {    
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
             Refresh();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
-            MainDrawer.XAngle = (float)TrackAroundX.Value / 1000;
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
             Refresh();
         }
