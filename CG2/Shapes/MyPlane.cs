@@ -108,6 +108,8 @@ namespace CG2.Shapes
             MyVertex[] points = new MyVertex[nn + 1];
             MyVertex[] newPoints = new MyVertex[nn + 1];
             Vector3 tmp;
+            Vector3 tmpNormalU;
+            Vector3 tmpNormalV;
             float v = 0;
             for (int vi = 0; vi <= nn; v += kk, vi++)
             {
@@ -127,14 +129,39 @@ namespace CG2.Shapes
                     MyVertex vert = new MyVertex();
                     vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
                     vert.RotatedPosition = Vector3.Transform(Vector3.Transform(vert.OriginalPosition, _xTransformMatrix), _zTransformMatrix);
+                    tmpNormalU = new Vector3(0, 0, 0);
+                    for (int i = 0; i < n - 1; i++)
+                    {
+                        for (int j = 0; j < m; j++)
+                        {
+                            tmpNormalU += (ControlPoints[m * (i + 1) + j] - ControlPoints[m * i + j]) *
+                                Bernstein(n - 2, i, u) * Bernstein(m - 1, j, v);
+                        }
+                    }
+                    tmpNormalU *= (n - 1);
+                    tmpNormalV = new Vector3(0, 0, 0);
+                    for (int i = 0; i < n; i++)
+                    {
+                        for (int j = 0; j < m - 1; j++)
+                        {
+                            tmpNormalV += (ControlPoints[m * i + j + 1] - ControlPoints[m * i + j]) *
+                                Bernstein(n - 1, i, u) * Bernstein(m - 2, j, v);
+                        }
+                    }
+                    // m - 1 because the dimmension is 3 for our surface.
+                    tmpNormalV *= (m - 1);
+
+                    // some troubles may be here 
+                    vert.PuBefore = tmpNormalU;
+                    vert.PvBefore = tmpNormalV;
+                    // I think we should normalize vectors
+                    vert.NBefore = Vector3.Cross(Vector3.Normalize(vert.PuBefore), Vector3.Normalize(vert.PvBefore));
                     if (vi == 0)
                     {
                         points[ui] = vert;
                     }
                     else
                     {
-                        //MyVertex vert = new MyVertex();
-                        //vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
                         newPoints[ui] = vert;
                         if (ui > 0)
                         {
@@ -189,6 +216,9 @@ namespace CG2.Shapes
                 foreach (MyVertex vert in triangle.Points)
                 {
                     vert.RotatedPosition = RotateAPoint(vert.OriginalPosition);
+                    vert.NAfter = RotateAPoint(vert.NAfter);
+                    vert.PuAfter = RotateAPoint(vert.PuBefore);
+                    vert.PvAfter = RotateAPoint(vert.PvBefore);
                 }
             }
             for (int i = 0; i < ControlPoints.Count; i++)
