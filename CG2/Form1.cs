@@ -7,12 +7,15 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        public DirectBitmap DirectBitmap { get; set; }
         public MyPlane Plane { get; set; }
         public MainDrawer MainDrawer { get; set; }
 
         public ShapeForm()
         {
             InitializeComponent();
+            DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
+            PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
             Plane.Triangularization();
@@ -24,9 +27,7 @@ namespace CG2
             TrackAroundX.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundX.Maximum = (int)Math.Round(1000 * Math.PI / 4);
             TrackAroundX.TickFrequency = 100;
-
-
-            PictureBoxMain.Refresh();
+            PictureBoxMain_Paint(PictureBoxMain, new PaintEventArgs(Graphics.FromImage(PictureBoxMain.Image), PictureBoxMain.ClientRectangle));
         }
 
         static void ReadStartVerticesFromFile(string fileName, List<Vector3> listOfPoints)
@@ -52,11 +53,13 @@ namespace CG2
 
         private void PictureBoxMain_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            g.ScaleTransform(1, -1);
-            g.TranslateTransform(PictureBoxMain.Width / 2, -PictureBoxMain.Height / 2);
-
-            MainDrawer.Draw(g);
+            using (Graphics g = Graphics.FromImage(PictureBoxMain.Image))
+            {
+                g.Clear(Color.WhiteSmoke);
+                g.ScaleTransform(1, -1);
+                g.TranslateTransform(PictureBoxMain.Width / 2, -PictureBoxMain.Height / 2);
+                MainDrawer.Draw(g);
+            }
         }
 
         private void TrackAroundZ_Scroll(object sender, EventArgs e)

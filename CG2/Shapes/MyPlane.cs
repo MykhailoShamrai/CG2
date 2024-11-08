@@ -10,7 +10,7 @@ namespace CG2.Shapes
 {
     public class MyPlane
     {
-        public int LevelOfTriang { get; set; } = 1;
+        public int LevelOfTriang { get; set; } = 0;
         private int _baseDimTriang = 4;
         private int _dim = 4;
         public List<Vector3> ControlPoints { get; set; }

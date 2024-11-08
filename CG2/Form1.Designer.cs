@@ -60,7 +60,7 @@
             MainUnder.Name = "MainUnder";
             MainUnder.RowCount = 1;
             MainUnder.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            MainUnder.Size = new Size(982, 553);
+            MainUnder.Size = new Size(982, 703);
             MainUnder.TabIndex = 0;
             // 
             // PictureBoxMain
@@ -68,7 +68,7 @@
             PictureBoxMain.Dock = DockStyle.Fill;
             PictureBoxMain.Location = new Point(3, 3);
             PictureBoxMain.Name = "PictureBoxMain";
-            PictureBoxMain.Size = new Size(736, 547);
+            PictureBoxMain.Size = new Size(736, 697);
             PictureBoxMain.TabIndex = 0;
             PictureBoxMain.TabStop = false;
             PictureBoxMain.Paint += PictureBoxMain_Paint;
@@ -76,15 +76,15 @@
             // RightLayout
             // 
             RightLayout.ColumnCount = 2;
-            RightLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 63.2478638F));
-            RightLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.7521362F));
+            RightLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 53.4188042F));
+            RightLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 46.5811958F));
             RightLayout.Controls.Add(tableLayoutPanel1, 0, 0);
             RightLayout.Dock = DockStyle.Fill;
             RightLayout.Location = new Point(745, 3);
             RightLayout.Name = "RightLayout";
             RightLayout.RowCount = 1;
             RightLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 40.402195F));
-            RightLayout.Size = new Size(234, 547);
+            RightLayout.Size = new Size(234, 697);
             RightLayout.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -97,9 +97,9 @@
             tableLayoutPanel1.Location = new Point(3, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(142, 541);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 17.3661366F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 82.6338654F));
+            tableLayoutPanel1.Size = new Size(119, 691);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -113,18 +113,18 @@
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 130F));
-            tableLayoutPanel2.Size = new Size(136, 264);
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+            tableLayoutPanel2.Size = new Size(113, 114);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // TrackAroundZ
             // 
             TrackAroundZ.Dock = DockStyle.Bottom;
-            TrackAroundZ.Location = new Point(3, 205);
+            TrackAroundZ.Location = new Point(3, 55);
             TrackAroundZ.Maximum = 45;
             TrackAroundZ.Minimum = -45;
             TrackAroundZ.Name = "TrackAroundZ";
-            TrackAroundZ.Size = new Size(130, 56);
+            TrackAroundZ.Size = new Size(107, 56);
             TrackAroundZ.TabIndex = 0;
             TrackAroundZ.TickFrequency = 2;
             TrackAroundZ.Scroll += TrackAroundZ_Scroll;
@@ -133,9 +133,10 @@
             // 
             AroundZLabel.AutoSize = true;
             AroundZLabel.Dock = DockStyle.Bottom;
-            AroundZLabel.Location = new Point(3, 114);
+            AroundZLabel.Font = new Font("Segoe UI", 9F);
+            AroundZLabel.Location = new Point(3, 6);
             AroundZLabel.Name = "AroundZLabel";
-            AroundZLabel.Size = new Size(130, 20);
+            AroundZLabel.Size = new Size(107, 40);
             AroundZLabel.TabIndex = 1;
             AroundZLabel.Text = "Rotation around Z";
             // 
@@ -146,31 +147,33 @@
             tableLayoutPanel3.Controls.Add(AroundXLabel, 0, 0);
             tableLayoutPanel3.Controls.Add(TrackAroundX, 0, 1);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(3, 273);
+            tableLayoutPanel3.Location = new Point(3, 123);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowCount = 3;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 131F));
-            tableLayoutPanel3.Size = new Size(136, 265);
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 463F));
+            tableLayoutPanel3.Size = new Size(113, 565);
             tableLayoutPanel3.TabIndex = 1;
             // 
             // AroundXLabel
             // 
             AroundXLabel.AutoSize = true;
             AroundXLabel.Dock = DockStyle.Bottom;
-            AroundXLabel.Location = new Point(3, 114);
+            AroundXLabel.Font = new Font("Segoe UI", 9F);
+            AroundXLabel.Location = new Point(3, 17);
             AroundXLabel.Name = "AroundXLabel";
-            AroundXLabel.Size = new Size(130, 20);
+            AroundXLabel.Size = new Size(107, 40);
             AroundXLabel.TabIndex = 0;
             AroundXLabel.Text = "Rotation around X";
             // 
             // TrackAroundX
             // 
             TrackAroundX.Dock = DockStyle.Bottom;
-            TrackAroundX.Location = new Point(3, 206);
+            TrackAroundX.Location = new Point(3, 60);
             TrackAroundX.Minimum = -10;
             TrackAroundX.Name = "TrackAroundX";
-            TrackAroundX.Size = new Size(130, 56);
+            TrackAroundX.Size = new Size(107, 39);
             TrackAroundX.TabIndex = 2;
             TrackAroundX.Scroll += TrackAroundX_Scroll;
             // 
@@ -178,8 +181,10 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 553);
+            ClientSize = new Size(982, 703);
             Controls.Add(MainUnder);
+            MaximumSize = new Size(1000, 750);
+            MinimumSize = new Size(1000, 750);
             Name = "ShapeForm";
             Text = "Bezier Plane";
             MainUnder.ResumeLayout(false);
