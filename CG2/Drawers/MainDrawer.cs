@@ -13,8 +13,8 @@ namespace CG2.Drawers
     public class MainDrawer
     {
         public int LevelOfTriang { get; set; } = 0;
-        public Pen ControlPen = new Pen(Color.Crimson);
-        public Pen TriangleBorderPen = new Pen(Color.BlueViolet);
+        private readonly Pen _controlPen = new Pen(Color.Crimson, 0.5f);
+        private readonly Pen _triangleBorderPen = new Pen(Color.BlueViolet, 1);
         public MyPlane Plane { get; set; }
         // beta angle
         private float _xAngle = 0;
@@ -62,7 +62,6 @@ namespace CG2.Drawers
                                                            0, 0, 1, 0,
                                                            0, 0, 0, 1);
 
-        //private EventHandler _onAngleChanged;
         public event EventHandler AngleChanged;
         private void OnAngleChanged(string propertyName)
         {
@@ -111,18 +110,18 @@ namespace CG2.Drawers
                 {
                     tmp = Vector3.Transform(Plane.ControlPoints[size * i + j], _zTransformMatrix);
                     tmp = Vector3.Transform(tmp, _xTransformMatrix);
-                    g.DrawEllipse(ControlPen, tmp.X - 2, tmp.Y - 2, 4, 4);
+                    g.DrawEllipse(_controlPen, tmp.X - 2, tmp.Y - 2, 4, 4);
                     if ((j - 1) >= 0)
                     {
                         tmp2 = Vector3.Transform(Plane.ControlPoints[size * i + j - 1], _zTransformMatrix);
                         tmp2 = Vector3.Transform(tmp2, _xTransformMatrix);
-                        g.DrawLine(ControlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
+                        g.DrawLine(_controlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                     if ((i - 1) >= 0)
                     {
                         tmp2 = Vector3.Transform(Plane.ControlPoints[size * (i - 1) + j], _zTransformMatrix);
                         tmp2 = Vector3.Transform(tmp2, _xTransformMatrix);
-                        g.DrawLine(ControlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
+                        g.DrawLine(_controlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                 }
             }
@@ -130,14 +129,14 @@ namespace CG2.Drawers
 
         public void DrawBordersOfTriangles(Graphics g)
         {
-            foreach (var triangle in Plane.Triangles)
+            foreach (var vertices in Plane.Triangles.Select(tr => tr.Points))
             {
-                g.DrawLine(TriangleBorderPen, new Point((int)triangle.First.OriginalPosition.X, (int)triangle.First.OriginalPosition.Y),
-                    new Point((int)triangle.Second.OriginalPosition.X, (int)triangle.Second.OriginalPosition.Y));
-                g.DrawLine(TriangleBorderPen, new Point((int)triangle.Second.OriginalPosition.X, (int)triangle.Second.OriginalPosition.Y),
-                    new Point((int)triangle.Third.OriginalPosition.X, (int)triangle.Third.OriginalPosition.Y));
-                g.DrawLine(TriangleBorderPen, new Point((int)triangle.Third.OriginalPosition.X, (int)triangle.Third.OriginalPosition.Y),
-                    new Point((int)triangle.First.OriginalPosition.X, (int)triangle.First.OriginalPosition.Y));
+                g.DrawLine(_triangleBorderPen, new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y),
+                    new Point((int)vertices[1].RotatedPosition.X, (int)vertices[1].RotatedPosition.Y));
+                g.DrawLine(_triangleBorderPen, new Point((int)vertices[1].RotatedPosition.X, (int)vertices[1].RotatedPosition.Y),
+                    new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y));
+                g.DrawLine(_triangleBorderPen, new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y),
+                    new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y));
             }
         }
     }

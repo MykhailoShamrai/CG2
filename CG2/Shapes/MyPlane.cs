@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Security.Policy;
@@ -10,16 +11,88 @@ namespace CG2.Shapes
 {
     public class MyPlane
     {
-        public int LevelOfTriang { get; set; } = 0;
-        private int _baseDimTriang = 4;
-        private int _dim = 4;
+        public int LevelOfTriang { get; set; } = 2;
+        private readonly int _baseDimTriang = 4;
+        private readonly int _dim = 4;
         public List<Vector3> ControlPoints { get; set; }
         public List<Triangle> Triangles { get; set; }
+        private float _xAngle = 0;
+        private float _zAngle = 0;
+        public float XAngle
+        {
+            get
+            {
+                return _xAngle;
+            }
+            set
+            {
+                // Stack overflow here???
+                if (Math.Abs(_xAngle - value) > 10e-8)
+                {
+                    _xAngle = value;
+                    OnAngleChanged(nameof(XAngle));
+                }
+            }
+        }
+        // alpha angle
+        public float ZAngle
+        {
+            get
+            {
+                return _zAngle;
+            }
+            set
+            {
+                if (Math.Abs(_zAngle - value) > 10e-8)
+                {
+                    _zAngle = value;
+                    OnAngleChanged(nameof(ZAngle));
+                }
+            }
+        }
+
+        private Matrix4x4 _zTransformMatrix = new Matrix4x4(1, 0, 0, 0,
+                                                           0, 1, 0, 0,
+                                                           0, 0, 1, 0,
+                                                           0, 0, 0, 1);
+
+        private Matrix4x4 _xTransformMatrix = new Matrix4x4(1, 0, 0, 0,
+                                                           0, 1, 0, 0,
+                                                           0, 0, 1, 0,
+                                                           0, 0, 0, 1);
+
+        //private EventHandler _onAngleChanged;
+        public event EventHandler AngleChanged;
+        private void OnAngleChanged(string propertyName)
+        {
+            AngleChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public MyPlane()
         {
             ControlPoints = new List<Vector3>();
             Triangles = new List<Triangle>();
             //Triangularization();
+            AngleChanged += ChangeRotationMatrices;
+        }
+
+        private void ChangeRotationMatrices(object? sender, EventArgs e)
+        {
+            float sinOfZ = MathF.Sin(ZAngle);
+            float sinOfX = MathF.Sin(XAngle);
+            float cosOfZ = MathF.Cos(ZAngle);
+            float cosOfX = MathF.Cos(XAngle);
+            // Changing for ZTransformMatrix
+            _zTransformMatrix[0, 0] = cosOfZ;
+            _zTransformMatrix[0, 1] = -sinOfZ;
+            _zTransformMatrix[1, 0] = sinOfZ;
+            _zTransformMatrix[1, 1] = cosOfX;
+            // Changing git XTransformMatrix
+            _xTransformMatrix[1, 1] = cosOfX;
+            _xTransformMatrix[1, 2] = -sinOfX;
+            _xTransformMatrix[2, 1] = sinOfX;
+            _xTransformMatrix[2, 2] = cosOfX;
+
+            RotateAllTriangles();
         }
 
         public void Triangularization()
@@ -49,16 +122,17 @@ namespace CG2.Shapes
                             tmp += ControlPoints[m * i + j] * Bernstein(n - 1, i, u) * Bernstein(m - 1, j, v);
                         }
                     }
+                    MyVertex vert = new MyVertex();
+                    vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
+                    vert.RotatedPosition = Vector3.Transform(Vector3.Transform(vert.OriginalPosition, _xTransformMatrix), _zTransformMatrix);
                     if (vi == 0)
                     {
-                        MyVertex vert = new MyVertex();
-                        vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
                         points[ui] = vert;
                     }
                     else
                     {
-                        MyVertex vert = new MyVertex();
-                        vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
+                        //MyVertex vert = new MyVertex();
+                        //vert.OriginalPosition = new Vector3(tmp.X, tmp.Y, tmp.Z);
                         newPoints[ui] = vert;
                         if (ui > 0)
                         {
@@ -100,5 +174,18 @@ namespace CG2.Shapes
             Vector3 temp = new Vector3(tmp, tmp, tmp);
             return temp * secondNumerator * thirdNumerator;
         }
+
+
+        public void RotateAllTriangles()
+        {
+            foreach (Triangle triangle in Triangles)
+            {
+                foreach (MyVertex vert in triangle.Points)
+                {
+                    vert.RotatedPosition = Vector3.Transform(Vector3.Transform(vert.OriginalPosition, _xTransformMatrix), _zTransformMatrix);
+                }
+            }
+        }
     }
+
 }

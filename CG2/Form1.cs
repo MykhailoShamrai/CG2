@@ -39,7 +39,7 @@ namespace CG2
                 {
                     string tmp;
                     string[] pointTmp;
-                    while ((tmp = sr.ReadLine()) != null)
+                    while ((tmp = sr.ReadLine()!) != null)
                     {
                         pointTmp = tmp.Split(',');
                         // Here must be a try/catch statement
@@ -57,7 +57,7 @@ namespace CG2
             {
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
-                g.TranslateTransform(PictureBoxMain.Width / 2, -PictureBoxMain.Height / 2);
+                g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
                 MainDrawer.Draw(g);
             }
         }
@@ -65,12 +65,14 @@ namespace CG2
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
         {
             MainDrawer.ZAngle = (float)TrackAroundZ.Value / 1000;
+            Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
             Refresh();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             MainDrawer.XAngle = (float)TrackAroundX.Value / 1000;
+            Plane.XAngle = (float)TrackAroundX.Value / 1000;
             Refresh();
         }
     }
