@@ -28,6 +28,9 @@ namespace CG2
             TrackAroundX.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundX.Maximum = (int)Math.Round(1000 * Math.PI / 4);
             TrackAroundX.TickFrequency = 100;
+            trackTriangulation.Minimum = 0;
+            trackTriangulation.Maximum = 5;
+            trackTriangulation.Value = 0;
             PictureBoxMain_Paint(PictureBoxMain, new PaintEventArgs(Graphics.FromImage(PictureBoxMain.Image), PictureBoxMain.ClientRectangle));
         }
 
@@ -64,7 +67,7 @@ namespace CG2
         }
 
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
-        {    
+        {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
             Refresh();
         }
@@ -72,6 +75,14 @@ namespace CG2
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
+            Refresh();
+        }
+
+
+        private void trackTriangulation_ValueChanged(object sender, EventArgs e)
+        {
+            Plane.LevelOfTriang = trackTriangulation.Value;
+            Plane.Triangularization();
             Refresh();
         }
     }

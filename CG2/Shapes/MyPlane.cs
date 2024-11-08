@@ -11,7 +11,8 @@ namespace CG2.Shapes
 {
     public class MyPlane
     {
-        public int LevelOfTriang { get; set; } = 2;
+        
+        public int LevelOfTriang { get; set; } = 0;
         private readonly int _baseDimTriang = 4;
         private readonly int _dim = 4;
         public List<Vector3> ControlPoints { get; set; }
@@ -101,6 +102,7 @@ namespace CG2.Shapes
         {
             // How  many triangles in one "column"
             // Is implemented only adding points to triangles. Now I want to check if it works
+            Triangles.Clear();
             int nn = _baseDimTriang * (1 << LevelOfTriang);
             int m = _dim;
             int n = _dim;
@@ -156,6 +158,9 @@ namespace CG2.Shapes
                     vert.PvBefore = tmpNormalV;
                     // I think we should normalize vectors
                     vert.NBefore = Vector3.Cross(Vector3.Normalize(vert.PuBefore), Vector3.Normalize(vert.PvBefore));
+                    vert.PuAfter = RotateAPoint(vert.PuBefore);
+                    vert.PvAfter = RotateAPoint(vert.PvBefore);
+                    vert.NAfter = RotateAPoint(vert.NBefore);
                     if (vi == 0)
                     {
                         points[ui] = vert;

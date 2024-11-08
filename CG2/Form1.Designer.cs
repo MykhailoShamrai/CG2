@@ -38,6 +38,8 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             AroundXLabel = new Label();
             TrackAroundX = new TrackBar();
+            LevelOfTriangulation = new Label();
+            trackTriangulation = new TrackBar();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -46,6 +48,7 @@
             ((System.ComponentModel.ISupportInitialize)TrackAroundZ).BeginInit();
             tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackTriangulation).BeginInit();
             SuspendLayout();
             // 
             // MainUnder
@@ -113,18 +116,19 @@
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel2.Size = new Size(113, 114);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // TrackAroundZ
             // 
             TrackAroundZ.Dock = DockStyle.Bottom;
-            TrackAroundZ.Location = new Point(3, 55);
+            TrackAroundZ.Location = new Point(3, 72);
             TrackAroundZ.Maximum = 45;
             TrackAroundZ.Minimum = -45;
             TrackAroundZ.Name = "TrackAroundZ";
-            TrackAroundZ.Size = new Size(107, 56);
+            TrackAroundZ.Size = new Size(107, 39);
             TrackAroundZ.TabIndex = 0;
             TrackAroundZ.TickFrequency = 2;
             TrackAroundZ.Scroll += TrackAroundZ_Scroll;
@@ -134,7 +138,7 @@
             AroundZLabel.AutoSize = true;
             AroundZLabel.Dock = DockStyle.Bottom;
             AroundZLabel.Font = new Font("Segoe UI", 9F);
-            AroundZLabel.Location = new Point(3, 6);
+            AroundZLabel.Location = new Point(3, 29);
             AroundZLabel.Name = "AroundZLabel";
             AroundZLabel.Size = new Size(107, 40);
             AroundZLabel.TabIndex = 1;
@@ -146,13 +150,17 @@
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.Controls.Add(AroundXLabel, 0, 0);
             tableLayoutPanel3.Controls.Add(TrackAroundX, 0, 1);
+            tableLayoutPanel3.Controls.Add(LevelOfTriangulation, 0, 2);
+            tableLayoutPanel3.Controls.Add(trackTriangulation, 0, 3);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(3, 123);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 3;
+            tableLayoutPanel3.RowCount = 5;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 463F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 393F));
             tableLayoutPanel3.Size = new Size(113, 565);
             tableLayoutPanel3.TabIndex = 1;
             // 
@@ -161,7 +169,7 @@
             AroundXLabel.AutoSize = true;
             AroundXLabel.Dock = DockStyle.Bottom;
             AroundXLabel.Font = new Font("Segoe UI", 9F);
-            AroundXLabel.Location = new Point(3, 17);
+            AroundXLabel.Location = new Point(3, 0);
             AroundXLabel.Name = "AroundXLabel";
             AroundXLabel.Size = new Size(107, 40);
             AroundXLabel.TabIndex = 0;
@@ -170,12 +178,30 @@
             // TrackAroundX
             // 
             TrackAroundX.Dock = DockStyle.Bottom;
-            TrackAroundX.Location = new Point(3, 60);
+            TrackAroundX.Location = new Point(3, 43);
             TrackAroundX.Minimum = -10;
             TrackAroundX.Name = "TrackAroundX";
-            TrackAroundX.Size = new Size(107, 39);
+            TrackAroundX.Size = new Size(107, 34);
             TrackAroundX.TabIndex = 2;
             TrackAroundX.Scroll += TrackAroundX_Scroll;
+            // 
+            // LevelOfTriangulation
+            // 
+            LevelOfTriangulation.AutoSize = true;
+            LevelOfTriangulation.Dock = DockStyle.Bottom;
+            LevelOfTriangulation.Location = new Point(3, 86);
+            LevelOfTriangulation.Name = "LevelOfTriangulation";
+            LevelOfTriangulation.Size = new Size(107, 40);
+            LevelOfTriangulation.TabIndex = 3;
+            LevelOfTriangulation.Text = "Level of triangulation";
+            // 
+            // trackTriangulation
+            // 
+            trackTriangulation.Location = new Point(3, 129);
+            trackTriangulation.Name = "trackTriangulation";
+            trackTriangulation.Size = new Size(107, 40);
+            trackTriangulation.TabIndex = 4;
+            trackTriangulation.ValueChanged += trackTriangulation_ValueChanged;
             // 
             // ShapeForm
             // 
@@ -197,6 +223,7 @@
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackTriangulation).EndInit();
             ResumeLayout(false);
         }
 
@@ -212,5 +239,7 @@
         private Label AroundZLabel;
         private Label AroundXLabel;
         private TrackBar TrackAroundX;
+        private Label LevelOfTriangulation;
+        private TrackBar trackTriangulation;
     }
 }
