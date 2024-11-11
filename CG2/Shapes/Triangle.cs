@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CG2.Shapes
 {
-    public class Triangle: Polygon
+    public class Triangle: AbstractPolygon
     {
         public Triangle() { }
         public Triangle(MyVertex first, MyVertex second, MyVertex third)

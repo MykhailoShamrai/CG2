@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CG2.Shapes
 {
-    public abstract class Polygon
+    public abstract class AbstractPolygon
     {
         public MyVertex[] Points { get; set; }
         public MyEdge[] Edges { get; set; }

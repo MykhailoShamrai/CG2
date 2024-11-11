@@ -256,7 +256,7 @@ namespace CG2.Shapes
             return index - 1 >= 0 ? index - 1 : len + index - 1;
         }
 
-        public static void ColorAPolygon(IColorer colorer, Polygon polygon, Vector3 lightPos, Color color)
+        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, Vector3 lightPos, Color color)
         {
             MyVertex[] vertices = polygon.Points;
             MyEdge[] edges = polygon.Edges;
@@ -264,14 +264,14 @@ namespace CG2.Shapes
             int[] indices = SortIndices(vertices);
             int ymin = (int)vertices[indices[0]].RotatedPosition.Y;
             int ymax = (int)vertices[indices[vertices.Length - 1]].RotatedPosition.Y;
-            int y = ymin + 1;
+            int y = ymin;
             int i = 0;
             bool flag = false;
             while (y != ymax)
             {
                 for (int ii = i; ii >= i; ii--)
                 {
-                    if ((int)vertices[indices[ii]].RotatedPosition.Y == y - 1)
+                    if ((int)vertices[indices[ii]].RotatedPosition.Y == y)
                     {
                         flag = true;
                         // Check if we should add lines
@@ -325,7 +325,9 @@ namespace CG2.Shapes
                 {
                     polygon.VisitColorer(colorer, lightPos, (int)list[j].x, (int)list[j + 1].x, y, color);
                     list[j].x = list[j].x + list[j].dxdy;
-                }   
+                }
+                flag = false;
+                y += 1;
             }
         }
 
@@ -342,11 +344,13 @@ namespace CG2.Shapes
             // Sort vertices according to Y. It;s important, that index of a vertex gives us an index of edge where this vertex is the first end.
             // It means, that index - 1 gives us an edge wher ethis vertex is second.
             int[] res = new int[vertices.Length];
+            MyVertex[] tmp = new MyVertex[vertices.Length];
+            Array.Copy(vertices, tmp, vertices.Length);
             for (int i = 0; i < vertices.Length; i++)
             {
                 res[i] = i;
             }
-            Array.Sort<MyVertex, int>(vertices, res, new MyComparer());
+            Array.Sort<MyVertex, int>(tmp, res, new MyComparer());
             return res;
         }
     }
