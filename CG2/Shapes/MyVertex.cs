@@ -17,5 +17,7 @@ namespace CG2.Shapes
         public Vector3 PuAfter { get; set; }
         public Vector3 PvAfter { get; set; }
         public Vector3 NAfter { get; set; }
+        public float U { get; set; }
+        public float V { get; set; }
     }
 }

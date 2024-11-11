@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CG2.Drawers;
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
@@ -154,13 +156,15 @@ namespace CG2.Shapes
                     tmpNormalV *= (m - 1);
 
                     // some troubles may be here 
-                    vert.PuBefore = tmpNormalU;
-                    vert.PvBefore = tmpNormalV;
                     // I think we should normalize vectors
-                    vert.NBefore = Vector3.Cross(Vector3.Normalize(vert.PuBefore), Vector3.Normalize(vert.PvBefore));
+                    vert.PuBefore = Vector3.Normalize(tmpNormalU);
+                    vert.PvBefore = Vector3.Normalize(tmpNormalV);
+                    vert.NBefore = Vector3.Normalize(Vector3.Cross(vert.PuBefore, vert.PvBefore));
                     vert.PuAfter = RotateAPoint(vert.PuBefore);
                     vert.PvAfter = RotateAPoint(vert.PvBefore);
                     vert.NAfter = RotateAPoint(vert.NBefore);
+                    vert.U = u;
+                    vert.V = v;
                     if (vi == 0)
                     {
                         points[ui] = vert;
@@ -170,7 +174,7 @@ namespace CG2.Shapes
                         newPoints[ui] = vert;
                         if (ui > 0)
                         {
-                            // if it's any other case, we must add two triangles
+                            // if it's any other case, we must add two triangless
                             Triangles.Add(new Triangle(points[ui - 1], points[ui], newPoints[ui]));
                             Triangles.Add(new Triangle(newPoints[ui], newPoints[ui - 1], points[ui - 1]));
                         }
@@ -230,6 +234,120 @@ namespace CG2.Shapes
             {
                 RotatedControlPoints[i] = RotateAPoint(ControlPoints[i]);
             }
+        }
+
+        public class AET
+        {
+            public float ymax { get; set; }
+            public float x {  get; set; }
+            public float dxdy;
+            public int firstInd;
+            public AET(MyVertex first, MyVertex second, int firstInd)
+            {
+                ymax = second.RotatedPosition.Y;
+                x = first.RotatedPosition.X;
+                dxdy = (second.RotatedPosition.X - first.RotatedPosition.X) / (second.RotatedPosition.Y - first.RotatedPosition.Y);
+                this.firstInd = firstInd;
+            }
+        }
+
+        public static int RetIndexMinOne(int index, int len)
+        {
+            return index - 1 >= 0 ? index - 1 : len + index - 1;
+        }
+
+        public static void ColorAPolygon(IColorer colorer, Polygon polygon, Vector3 lightPos, Color color)
+        {
+            MyVertex[] vertices = polygon.Points;
+            MyEdge[] edges = polygon.Edges;
+            List<AET> list = new List<AET>();
+            int[] indices = SortIndices(vertices);
+            int ymin = (int)vertices[indices[0]].RotatedPosition.Y;
+            int ymax = (int)vertices[indices[vertices.Length - 1]].RotatedPosition.Y;
+            int y = ymin + 1;
+            int i = 0;
+            bool flag = false;
+            while (y != ymax)
+            {
+                for (int ii = i; ii >= i; ii--)
+                {
+                    if ((int)vertices[indices[ii]].RotatedPosition.Y == y - 1)
+                    {
+                        flag = true;
+                        // Check if we should add lines
+                        int first = RetIndexMinOne(indices[ii], vertices.Length);
+                        int second = indices[ii];
+                        // Check first edge
+                        if ((int)edges[first].First.RotatedPosition.Y >= y)
+                        {
+                            list.Add(new AET(edges[first].Second, edges[first].First, first));
+                        }
+                        else
+                        {
+                            for (int k = 0; k < list.Count; k++)
+                            {
+                                if (list[k].firstInd == first)
+                                {
+                                    list.RemoveAt(k);
+                                    break;
+                                }
+                            }
+                        }
+                        // Check second edge
+                        if ((int)edges[second].Second.RotatedPosition.Y >= y)
+                        {
+                            list.Add(new AET(edges[second].First, edges[second].Second, second));
+                        }
+                        else
+                        {
+                            for (int k = 0; k < list.Count; k++)
+                            {
+                                if (list[k].firstInd == second)
+                                {
+                                    list.RemoveAt(k);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                // ok, now all is okay and we should sort our AET if any changes were made
+                if (flag)
+                {
+                    list.Sort((first, second) => first.x.CompareTo(second.x));
+                }
+                // After we had sorted everything, we must paint every pixel that is to be painted!!!
+                for (int j = 0; j < list.Count; j += 2)
+                {
+                    polygon.VisitColorer(colorer, lightPos, (int)list[j].x, (int)list[j + 1].x, y, color);
+                    list[j].x = list[j].x + list[j].dxdy;
+                }   
+            }
+        }
+
+        public class MyComparer : IComparer<MyVertex>
+        {
+            public int Compare(MyVertex? x, MyVertex? y)
+            {
+                return x.RotatedPosition.Y.CompareTo(y.RotatedPosition.Y);
+            }
+        }
+
+        public static int[] SortIndices(MyVertex[] vertices)
+        {
+            // Sort vertices according to Y. It;s important, that index of a vertex gives us an index of edge where this vertex is the first end.
+            // It means, that index - 1 gives us an edge wher ethis vertex is second.
+            int[] res = new int[vertices.Length];
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                res[i] = i;
+            }
+            Array.Sort<MyVertex, int>(vertices, res, new MyComparer());
+            return res;
         }
     }
 }

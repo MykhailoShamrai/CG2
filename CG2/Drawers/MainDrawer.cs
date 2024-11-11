@@ -27,6 +27,7 @@ namespace CG2.Drawers
         {
             DrawControlPoints(g);
             DrawBordersOfTriangles(g);
+            
         }
 
         public void DrawControlPoints(Graphics g, int size = 4)
@@ -64,6 +65,10 @@ namespace CG2.Drawers
                     new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y));
                 g.DrawLine(_triangleBorderPen, new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y),
                     new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y));
+            }
+            foreach(var triangle in Plane.Triangles)
+            {
+                MyPlane.ColorAPolygon(new MainColorer(), triangle, new Vector3(), Color.Yellow);
             }
         }
     }
