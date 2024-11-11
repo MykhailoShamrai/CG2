@@ -7,27 +7,29 @@ using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static CG2.Shapes.MyPlane;
 
 namespace CG2.Drawers
 {
     public class MainDrawer
     {
+        public DirectBitmap Canvas { get; set; }
         public int LevelOfTriang { get; set; } = 0;
         private readonly Pen _controlPen = new Pen(Color.Crimson, 0.5f);
         private readonly Pen _triangleBorderPen = new Pen(Color.BlueViolet, 1);
         public MyPlane Plane { get; set; }
         
 
-        public MainDrawer(MyPlane plane)
+        public MainDrawer(MyPlane plane, DirectBitmap canvas)
         {
             Plane = plane;
+            Canvas = canvas;
         }
 
         public void Draw(Graphics g)
         {
-            DrawControlPoints(g);
             DrawBordersOfTriangles(g);
-            
+            DrawControlPoints(g);
         }
 
         public void DrawControlPoints(Graphics g, int size = 4)
@@ -55,8 +57,141 @@ namespace CG2.Drawers
             }
         }
 
+        public class AET
+        {
+            public float ymax { get; set; }
+            public float x { get; set; }
+            public float dxdy;
+            public int firstInd;
+            public AET(MyVertex first, MyVertex second, int firstInd)
+            {
+                ymax = second.RotatedPosition.Y;
+                x = first.RotatedPosition.X;
+                dxdy = (second.RotatedPosition.X - first.RotatedPosition.X) / (second.RotatedPosition.Y - first.RotatedPosition.Y);
+                if (MathF.Abs(second.RotatedPosition.Y - first.RotatedPosition.Y) < 10e-5)
+                    dxdy = 0;
+                this.firstInd = firstInd;
+            }
+        }
+
+        public static int RetIndexMinOne(int index, int len)
+        {
+            return index - 1 >= 0 ? index - 1 : len + index - 1;
+        }
+
+
+        public class MyComparer : IComparer<MyVertex>
+        {
+            public int Compare(MyVertex? x, MyVertex? y)
+            {
+                return x.RotatedPosition.Y.CompareTo(y.RotatedPosition.Y);
+            }
+        }
+
+        public static int[] SortIndices(MyVertex[] vertices)
+        {
+            // Sort vertices according to Y. It;s important, that index of a vertex gives us an index of edge where this vertex is the first end.
+            // It means, that index - 1 gives us an edge wher ethis vertex is second.
+            int[] res = new int[vertices.Length];
+            MyVertex[] tmp = new MyVertex[vertices.Length];
+            Array.Copy(vertices, tmp, vertices.Length);
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                res[i] = i;
+            }
+            Array.Sort<MyVertex, int>(tmp, res, new MyComparer());
+            return res;
+        }
+        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, Vector3 lightPos, Color color, DirectBitmap canvas)
+        {
+            MyVertex[] vertices = polygon.Points;
+            MyEdge[] edges = polygon.Edges;
+            List<AET> list = new List<AET>();
+            int[] indices = SortIndices(vertices);
+            int ymin = (int)vertices[indices[0]].RotatedPosition.Y;
+            int ymax = (int)vertices[indices[vertices.Length - 1]].RotatedPosition.Y;
+            int y = ymin;
+            int i = 0;
+            bool flag = false;
+            while (y != ymax)
+            {
+                //int ii = i;
+                while (i < indices.Length && (int)vertices[indices[i]].RotatedPosition.Y == y)
+                {
+                    flag = true;
+                    // Check if we should add lines
+                    int first = RetIndexMinOne(indices[i], vertices.Length);
+                    int second = indices[i];
+                    // Check first edge
+                    // TODO: What's going on here if we have horiyontal line
+                    if ((int)edges[first].First.RotatedPosition.Y > y)
+                    {
+                        if (list.Count >= 2)
+                        {
+                            Console.WriteLine("Show me error");
+                        }
+                        list.Add(new AET(edges[first].Second, edges[first].First, first));
+                    }
+                    if ((int)edges[first].First.RotatedPosition.Y < y)
+                    {
+                        // BUG here!!! Nothing is deleted
+                        for (int k = 0; k < list.Count; k++)
+                        {
+                            if (list[k].firstInd == first)
+                            {
+                                list.RemoveAt(k);
+                                //i++;
+                                break;
+                            }
+                        }
+                    }
+                    // Check second edge
+                    if ((int)edges[second].Second.RotatedPosition.Y > y)
+                    {
+                        if (list.Count >= 2)
+                        {
+                            Console.WriteLine("Show me error");
+                        }
+                        list.Add(new AET(edges[second].First, edges[second].Second, second));
+                    }
+                    if ((int)edges[second].Second.RotatedPosition.Y < y)
+                    {
+                        for (int k = 0; k < list.Count; k++)
+                        {
+                            if (list[k].firstInd == second)
+                            {
+                                list.RemoveAt(k);
+                                //i++;
+                                break;
+                            }
+                        }
+                    }
+                    i++;
+
+                }
+                list.Sort((first, second) => first.x.CompareTo(second.x));
+                // After we had sorted everything, we must paint every pixel that is to be painted!!!
+                for (int j = 0; j < list.Count; j += 2)
+                {
+                    if (Math.Abs((int)list[j].x) > 1000 || Math.Abs((int)list[j + 1].x) > 1000)
+                    {
+                        Console.WriteLine("error");
+                    }
+                    polygon.VisitColorer(colorer, lightPos, (int)list[j].x, (int)list[j + 1].x, y, color, canvas);
+                    list[j].x = list[j].x + list[j].dxdy;
+                    list[j + 1].x = list[j + 1].x + list[j + 1].dxdy;
+                }
+                flag = false;
+                // if two points in the sorted array have same y
+                
+                y += 1;
+            }
+        }
+
         public void DrawBordersOfTriangles(Graphics g)
         {
+            foreach (var triangle in Plane.Triangles) // 20
+                ColorAPolygon(new MainColorer(), triangle, new Vector3(), Color.Yellow, Canvas);
             foreach (var vertices in Plane.Triangles.Select(tr => tr.Points))
             {
                 g.DrawLine(_triangleBorderPen, new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y),
@@ -66,10 +201,7 @@ namespace CG2.Drawers
                 g.DrawLine(_triangleBorderPen, new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y),
                     new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y));
             }
-            foreach(var triangle in Plane.Triangles)
-            {
-                MyPlane.ColorAPolygon(new MainColorer(), triangle, new Vector3(), Color.Yellow);
-            }
+            
         }
     }
 }

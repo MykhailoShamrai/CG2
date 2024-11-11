@@ -30,6 +30,9 @@ namespace CG2
 
         public void SetPixel(int x, int y, Color colour)
         {
+            y = -y;
+            x = x + Width / 2;
+            y = y + Height / 2;
             int index = x + (y * Width);
             int col = colour.ToArgb();
 

@@ -20,7 +20,7 @@ namespace CG2
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
             Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
             Plane.Triangularization();
-            MainDrawer = new MainDrawer(Plane);
+            MainDrawer = new MainDrawer(Plane, DirectBitmap);
 
             TrackAroundZ.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundZ.Maximum = (int)Math.Round(1000 * Math.PI / 4);
