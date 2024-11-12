@@ -14,7 +14,7 @@ namespace CG2
         public ShapeForm()
         {
             InitializeComponent();
-            LightSource = new Vector3(0, 0, 1000);
+            LightSource = new Vector3(300, 200, 1000);
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();

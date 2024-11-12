@@ -26,11 +26,20 @@ namespace CG2.Shapes
 
         public override void VisitColorer(IColorer colorer, Vector3 lightPos, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
-            colorer.DrawLineBetween(lightPos, this, x1, x2, y, color, canvas);
+            colorer.DrawHorizontalLineBetween(lightPos, this, x1, x2, y, color, canvas);
         }
 
-        public static (float lam1, float lam2, float lam3) ReturnBarycentricCoords(Vector3 point, Vector3 a, Vector3 b, Vector3 c)
+        public override void VisitColorerEdges(IColorer colorer, Vector3 lihgtpos, Color color, DirectBitmap canvas)
         {
+            colorer.DrawLineBetween(lihgtpos, this, color, canvas);
+        }
+
+        public static (float lam1, float lam2, float lam3) ReturnBarycentricCoords(Vector3 point, Triangle polygon)
+        {
+            Vector3 a = new Vector3(polygon.Points[0].RotatedPosition.X, polygon.Points[0].RotatedPosition.Y, 0);
+            Vector3 b = new Vector3(polygon.Points[1].RotatedPosition.X, polygon.Points[1].RotatedPosition.Y, 0);
+            Vector3 c = new Vector3(polygon.Points[2].RotatedPosition.X, polygon.Points[2].RotatedPosition.Y, 0);
+
             float sareaABC = Vector3.Cross(b - a,
                                            c - a).Length();
             float sareaPBC = Vector3.Cross(point - b,

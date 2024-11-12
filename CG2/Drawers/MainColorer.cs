@@ -10,20 +10,17 @@ namespace CG2.Drawers
 {
     public class MainColorer : IColorer
     {
-        public void DrawLineBetween(Vector3 lightPosition, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(Vector3 lightPosition, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
             int dx = x2 - x1;
             int k = dx < 0 ? -1 : 1;
-            Vector3 a = new Vector3(polygon.Points[0].RotatedPosition.X, polygon.Points[0].RotatedPosition.Y, 0);
-            Vector3 b = new Vector3(polygon.Points[1].RotatedPosition.X, polygon.Points[1].RotatedPosition.Y, 0);
-            Vector3 c = new Vector3(polygon.Points[2].RotatedPosition.X, polygon.Points[2].RotatedPosition.Y, 0);
             Vector3 tmp = new Vector3(0 ,0, 0);
             Vector3 L = new Vector3();
-            while (x1 < x2)
+            while (x1 <= x2)
             {
                 tmp.X = x1;
                 tmp.Y = y;
-                var res = Triangle.ReturnBarycentricCoords(tmp, a, b, c);
+                var res = Triangle.ReturnBarycentricCoords(tmp, polygon);
                 // Change this hard coded values
                 Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, 1, 1, 3);
                 canvas.SetPixel(x1, y, col);
@@ -31,9 +28,29 @@ namespace CG2.Drawers
             }
         }
 
-        public void DrawLineBetween(Vector3 lightPosition, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(Vector3 lightPosition, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
-            throw new NotImplementedException();
+            return;
+        }
+
+        public void DrawLineBetween(Vector3 lightPosition, Triangle polygon, Color color, DirectBitmap canvas)
+        {
+            // TODO:
+            Point first = new Point(0, 0);
+            Point second = new Point(0, 0);
+            foreach (MyEdge edge in polygon.Edges)
+            {
+                first.X = (int)edge.First.RotatedPosition.X;
+                first.Y = (int)edge.First.RotatedPosition.Y;
+                second.X = (int)edge.Second.RotatedPosition.X;
+                second.Y = (int)edge.Second.RotatedPosition.Y;
+                Draw(first, second, canvas, lightPosition, polygon, Color.White, 1, 1, 3, Color.Yellow);
+            }
+        }
+
+        public void DrawLineBetween(Vector3 lightPosition, AbstractPolygon polygon, Color color, DirectBitmap canvas)
+        {
+            return;
         }
 
         public Color ReturnColor((float lam1, float lam2, float lam3) lambdas, Vector3 lightPos, Triangle tr,
@@ -59,6 +76,7 @@ namespace CG2.Drawers
             {
                 cos2 *= tmp;
             }
+            cos2 = cos2 < 0 ? 0 : cos2;
             float rO = (float)color.R / 255;
             float gO = (float)color.G / 255;
             float bO = (float)color.B / 255;
@@ -73,14 +91,128 @@ namespace CG2.Drawers
 
             r = r * 255;
             r = r > 255 ? 255 : r;
-            r = r < 0 ? 0 : r;
             g = g * 255;
             g = g > 255 ? 255 : g;
-            g = g < 0 ? 0 : g;
             b = b * 255;
             b = b > 255 ? 255 : b;
-            b = b < 0 ? 0 : b;
             return Color.FromArgb((int)r, (int)g, (int)b);
+        }
+
+
+        // Brezenham drawing algo
+        public void Draw(Point first, Point second, DirectBitmap canvas, Vector3 lightPos, Triangle tr,
+                                    Color lightColor, float kd, float ks, int m, Color? color = null)
+        {
+            if (Math.Abs(second.Y - first.Y) < Math.Abs(second.X - first.X))
+            {
+                if (first.X > second.X)
+                {
+                    plotLineLow(second, first, canvas, lightPos, tr, lightColor, kd, ks, m, color);
+                }
+                else
+                {
+                    plotLineLow(first, second, canvas, lightPos, tr, lightColor, kd, ks, m, color);
+                }
+            }
+            else
+            {
+                if (first.Y > second.Y)
+                {
+                    plotLineHigh(second, first, canvas, lightPos, tr, lightColor, kd, ks, m, color);
+                }
+                else
+                {
+                    plotLineHigh(first, second, canvas, lightPos, tr, lightColor, kd, ks, m, color);
+                }
+            }
+        }
+
+        private void plotLineLow(Point first, Point second, DirectBitmap canvas, Vector3 lightPos, Triangle tr,
+                                    Color lightColor, float kd, float ks, int m, Color? color = null)
+        {
+            int dx = second.X - first.X;
+            int dy = second.Y - first.Y;
+            int yi = 1;
+
+            if (dy < 0)
+            {
+                yi = -1;
+                dy = -dy;
+            }
+
+            int D = (2 * dy) - dx;
+            int y = first.Y;
+
+            for (int x = first.X; x <= second.X; x++)
+            {
+                //if (x >= 0 && y >= 0)
+                {
+                    if (color.HasValue)
+                    {
+                        Vector3 tmp = new Vector3(x, y, 0);
+                        Vector3 L = new Vector3();
+                        var res = Triangle.ReturnBarycentricCoords(tmp, tr);
+                        canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
+                    }
+                    else
+                    {
+                        canvas.SetPixel(x, y, Color.Black);
+                    }
+                }
+                if (D > 0)
+                {
+                    y += yi;
+                    D += (2 * (dy - dx));
+                }
+                else
+                {
+                    D += 2 * dy;
+                }
+            }
+        }
+
+        private void plotLineHigh(Point first, Point second, DirectBitmap canvas, Vector3 lightPos, Triangle tr,
+                                    Color lightColor, float kd, float ks, int m, Color? color = null)
+        {
+            int dx = second.X - first.X;
+            int dy = second.Y - first.Y;
+            int xi = 1;
+
+            if (dx < 0)
+            {
+                xi = -1;
+                dx = -dx;
+            }
+
+            int D = (2 * dx) - dy;
+            int x = first.X;
+
+            for (int y = first.Y; y <= second.Y; y++)
+            {
+                //if (x >= 0 && y >= 0)
+                {
+                    if (color.HasValue)
+                    {
+                        Vector3 tmp = new Vector3(x, y, 0);
+                        Vector3 L = new Vector3();
+                        var res = Triangle.ReturnBarycentricCoords(tmp, tr);
+                        canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
+                    }
+                    else
+                    {
+                        canvas.SetPixel(x, y, Color.Black);
+                    }
+                }
+                if (D > 0)
+                {
+                    x += xi;
+                    D += (2 * (dx - dy));
+                }
+                else
+                {
+                    D += 2 * dx;
+                }
+            }
         }
     }
 }

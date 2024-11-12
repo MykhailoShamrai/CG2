@@ -128,10 +128,6 @@ namespace CG2.Drawers
                     // TODO: What's going on here if we have horiyontal line
                     if ((int)edges[first].First.RotatedPosition.Y > y)
                     {
-                        if (list.Count >= 2)
-                        {
-                            Console.WriteLine("Show me error");
-                        }
                         list.Add(new AET(edges[first].Second, edges[first].First, first));
                     }
                     if ((int)edges[first].First.RotatedPosition.Y < y)
@@ -142,7 +138,6 @@ namespace CG2.Drawers
                             if (list[k].firstInd == first)
                             {
                                 list.RemoveAt(k);
-                                //i++;
                                 break;
                             }
                         }
@@ -150,10 +145,6 @@ namespace CG2.Drawers
                     // Check second edge
                     if ((int)edges[second].Second.RotatedPosition.Y > y)
                     {
-                        if (list.Count >= 2)
-                        {
-                            Console.WriteLine("Show me error");
-                        }
                         list.Add(new AET(edges[second].First, edges[second].Second, second));
                     }
                     if ((int)edges[second].Second.RotatedPosition.Y < y)
@@ -175,11 +166,7 @@ namespace CG2.Drawers
                 // After we had sorted everything, we must paint every pixel that is to be painted!!!
                 for (int j = 0; j < list.Count; j += 2)
                 {
-                    if (Math.Abs((int)list[j].x) > 1000 || Math.Abs((int)list[j + 1].x) > 1000)
-                    {
-                        Console.WriteLine("error");
-                    }
-                    polygon.VisitColorer(colorer, lightPos, (int)list[j].x, (int)list[j + 1].x, y, color, canvas);
+                    polygon.VisitColorer(colorer, lightPos, (int)MathF.Ceiling(list[j].x), (int)MathF.Round(list[j + 1].x), y, color, canvas);
                     list[j].x = list[j].x + list[j].dxdy;
                     list[j + 1].x = list[j + 1].x + list[j + 1].dxdy;
                 }
