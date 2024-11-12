@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Numerics;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using static CG2.Shapes.MyPlane;
@@ -26,9 +27,10 @@ namespace CG2.Drawers
             Canvas = canvas;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Vector3 lightSource)
         {
-            DrawBordersOfTriangles(g);
+            FillTrianglesAccordingToLightSource(g, lightSource);
+            //DrawBordersOfTriangles(g);
             DrawControlPoints(g);
         }
 
@@ -190,8 +192,6 @@ namespace CG2.Drawers
 
         public void DrawBordersOfTriangles(Graphics g)
         {
-            foreach (var triangle in Plane.Triangles) // 20
-                ColorAPolygon(new MainColorer(), triangle, new Vector3(), Color.Yellow, Canvas);
             foreach (var vertices in Plane.Triangles.Select(tr => tr.Points))
             {
                 g.DrawLine(_triangleBorderPen, new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y),
@@ -201,7 +201,12 @@ namespace CG2.Drawers
                 g.DrawLine(_triangleBorderPen, new Point((int)vertices[2].RotatedPosition.X, (int)vertices[2].RotatedPosition.Y),
                     new Point((int)vertices[0].RotatedPosition.X, (int)vertices[0].RotatedPosition.Y));
             }
-            
+        }
+
+        public void FillTrianglesAccordingToLightSource(Graphics g, Vector3 lightSource)
+        {
+            foreach (var triangle in Plane.Triangles) // 20
+                ColorAPolygon(new MainColorer(), triangle, lightSource, Color.Yellow, Canvas);
         }
     }
 }

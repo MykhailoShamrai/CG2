@@ -10,10 +10,11 @@ namespace CG2
         public DirectBitmap DirectBitmap { get; set; }
         public MyPlane Plane { get; set; }
         public MainDrawer MainDrawer { get; set; }
-
+        public Vector3 LightSource { get; set; }
         public ShapeForm()
         {
             InitializeComponent();
+            LightSource = new Vector3(0, 0, 1000);
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
@@ -62,21 +63,21 @@ namespace CG2
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
-                MainDrawer.Draw(g);
+                MainDrawer.Draw(g, LightSource);
             }
-            PictureBoxMain.Image = DirectBitmap.Bitmap;
+            //PictureBoxMain.Image = DirectBitmap.Bitmap;
         }
 
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
         {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
-            Refresh();
+            PictureBoxMain.Refresh();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
-            Refresh();
+            PictureBoxMain.Refresh();
         }
 
 
@@ -85,7 +86,7 @@ namespace CG2
             Plane.LevelOfTriang = trackTriangulation.Value;
             Plane.Triangularization();
             Plane.RotateAllPoints();
-            Refresh();
+            PictureBoxMain.Invalidate();
         }
     }
 }

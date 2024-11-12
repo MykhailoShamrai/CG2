@@ -28,5 +28,18 @@ namespace CG2.Shapes
         {
             colorer.DrawLineBetween(lightPos, this, x1, x2, y, color, canvas);
         }
+
+        public static (float lam1, float lam2, float lam3) ReturnBarycentricCoords(Vector3 point, Vector3 a, Vector3 b, Vector3 c)
+        {
+            float sareaABC = Vector3.Cross(b - a,
+                                           c - a).Length();
+            float sareaPBC = Vector3.Cross(point - b,
+                                           c - b).Length();
+            float sareaAPC = Vector3.Cross(point - a,
+                                           c - a).Length();
+            float sareaABP = Vector3.Cross(point - a,
+                                           b - a).Length();
+            return (sareaPBC / sareaABC, sareaAPC / sareaABC, sareaABP / sareaABC);
+        }
     }
 }
