@@ -25,7 +25,7 @@ namespace CG2.Drawers
                 tmp.Y = y;
                 var res = Triangle.ReturnBarycentricCoords(tmp, a, b, c);
                 // Change this hard coded values
-                Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, 1, 0, 0);
+                Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, 1, 1, 3);
                 canvas.SetPixel(x1, y, col);
                 x1 += k;
             }

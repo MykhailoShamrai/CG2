@@ -225,7 +225,7 @@ namespace CG2.Shapes
                 foreach (MyVertex vert in triangle.Points)
                 {
                     vert.RotatedPosition = RotateAPoint(vert.OriginalPosition);
-                    vert.NAfter = RotateAPoint(vert.NAfter);
+                    vert.NAfter = RotateAPoint(vert.NBefore);
                     vert.PuAfter = RotateAPoint(vert.PuBefore);
                     vert.PvAfter = RotateAPoint(vert.PvBefore);
                 }
