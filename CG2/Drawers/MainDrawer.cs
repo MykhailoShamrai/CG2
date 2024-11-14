@@ -61,13 +61,13 @@ namespace CG2.Drawers
 
         public class AET
         {
-            public float ymax { get; set; }
+            //public float ymax { get; set; }
             public float x { get; set; }
             public float dxdy;
             public int firstInd;
             public AET(MyVertex first, MyVertex second, int firstInd)
             {
-                ymax = second.RotatedPosition.Y;
+                //ymax = second.RotatedPosition.Y;
                 x = first.RotatedPosition.X;
                 dxdy = (second.RotatedPosition.X - first.RotatedPosition.X) / (second.RotatedPosition.Y - first.RotatedPosition.Y);
                 if (MathF.Abs(second.RotatedPosition.Y - first.RotatedPosition.Y) < 10e-5)
@@ -117,9 +117,18 @@ namespace CG2.Drawers
             bool flag = false;
             while (y != ymax)
             {
-                //int ii = i;
+                int ii = i;
                 while (i < indices.Length && (int)vertices[indices[i]].RotatedPosition.Y == y)
                 {
+                    if (ii == i - 1)
+                    {
+                        ii++;
+                        float x1 = vertices[indices[i]].RotatedPosition.X;
+                        float x2 = vertices[indices[i - 1]].RotatedPosition.X;
+                        (x1, x2) = x1 < x2 ? (x1, x2) : (x2, x1);
+                        polygon.VisitColorer(colorer, lightPos, (int)MathF.Ceiling(x1),
+                                                                (int)MathF.Round(x2), y, color, canvas);
+                    }
                     flag = true;
                     // Check if we should add lines
                     int first = RetIndexMinOne(indices[i], vertices.Length);
@@ -162,7 +171,8 @@ namespace CG2.Drawers
                     i++;
 
                 }
-                list.Sort((first, second) => first.x.CompareTo(second.x));
+                if (flag)
+                    list.Sort((first, second) => first.x.CompareTo(second.x));
                 // After we had sorted everything, we must paint every pixel that is to be painted!!!
                 for (int j = 0; j < list.Count; j += 2)
                 {
@@ -192,7 +202,7 @@ namespace CG2.Drawers
 
         public void FillTrianglesAccordingToLightSource(Graphics g, Vector3 lightSource)
         {
-            foreach (var triangle in Plane.Triangles) // 20
+            foreach (var triangle in Plane.Triangles)
                 ColorAPolygon(new MainColorer(), triangle, lightSource, Color.Yellow, Canvas);
         }
     }
