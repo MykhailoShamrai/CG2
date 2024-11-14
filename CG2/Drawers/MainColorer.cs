@@ -10,6 +10,17 @@ namespace CG2.Drawers
 {
     public class MainColorer : IColorer
     {
+        public float Kd { get; set; }
+        public float Ks { get; set; }
+        public int M { get; set; }
+
+        public MainColorer(float kd, float ks, int m)
+        {
+            Kd = kd;
+            Ks = ks;
+            M = m;
+        }
+
         public void DrawHorizontalLineBetween(Vector3 lightPosition, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
             int dx = x2 - x1;

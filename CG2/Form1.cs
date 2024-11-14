@@ -7,6 +7,7 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        public IColorer Colorer { get; set; }
         public DirectBitmap DirectBitmap { get; set; }
         public MyPlane Plane { get; set; }
         public MainDrawer MainDrawer { get; set; }
@@ -14,6 +15,7 @@ namespace CG2
         public ShapeForm()
         {
             InitializeComponent();
+            Colorer = new MainColorer(1.0f, 1.0f, 1);
             LightSource = new Vector3(300, 200, 1000);
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
@@ -21,7 +23,7 @@ namespace CG2
             ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
             Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
             Plane.Triangularization();
-            MainDrawer = new MainDrawer(Plane, DirectBitmap);
+            MainDrawer = new MainDrawer(Plane, DirectBitmap, Colorer);
 
             TrackAroundZ.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundZ.Maximum = (int)Math.Round(1000 * Math.PI / 4);

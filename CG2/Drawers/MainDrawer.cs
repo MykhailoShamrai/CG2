@@ -14,6 +14,7 @@ namespace CG2.Drawers
 {
     public class MainDrawer
     {
+        IColorer Colorer { get; set; }
         public DirectBitmap Canvas { get; set; }
         public int LevelOfTriang { get; set; } = 0;
         private readonly Pen _controlPen = new Pen(Color.Crimson, 0.5f);
@@ -21,10 +22,11 @@ namespace CG2.Drawers
         public MyPlane Plane { get; set; }
         
 
-        public MainDrawer(MyPlane plane, DirectBitmap canvas)
+        public MainDrawer(MyPlane plane, DirectBitmap canvas, IColorer colorer)
         {
             Plane = plane;
             Canvas = canvas;
+            Colorer = colorer;
         }
 
         public void Draw(Graphics g, Vector3 lightSource)
@@ -203,7 +205,7 @@ namespace CG2.Drawers
         public void FillTrianglesAccordingToLightSource(Graphics g, Vector3 lightSource)
         {
             foreach (var triangle in Plane.Triangles)
-                ColorAPolygon(new MainColorer(), triangle, lightSource, Color.Yellow, Canvas);
+                ColorAPolygon(Colorer, triangle, lightSource, Color.Yellow, Canvas);
         }
     }
 }
