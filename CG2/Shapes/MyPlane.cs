@@ -13,8 +13,23 @@ namespace CG2.Shapes
 {
     public class MyPlane
     {
-        
-        public int LevelOfTriang { get; set; } = 0;
+
+        private int _levelOfTriang;
+        public int LevelOfTriang 
+        {
+            get
+            {
+                return _levelOfTriang;
+            }
+            set
+            {
+                if (_levelOfTriang != value)
+                {
+                    _levelOfTriang = value;
+                    OnLevelChanged(nameof(LevelOfTriang));
+                }
+            }
+        }
         private readonly int _baseDimTriang = 4;
         private readonly int _dim = 4;
         public List<Vector3> ControlPoints { get; set; }
@@ -65,8 +80,12 @@ namespace CG2.Shapes
                                                            0, 0, 1, 0,
                                                            0, 0, 0, 1);
 
-        //private EventHandler _onAngleChanged;
         public event EventHandler AngleChanged;
+        public event EventHandler LevelChanged;
+        private void OnLevelChanged(string propertyName)
+        {
+            LevelChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         private void OnAngleChanged(string propertyName)
         {
             AngleChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -74,10 +93,15 @@ namespace CG2.Shapes
         public MyPlane()
         {
             ControlPoints = new List<Vector3>();
-            //RotatedControlPoints = new List<Vector3>();
             Triangles = new List<Triangle>();
-            //Triangularization();
             AngleChanged += ChangeRotationMatrices;
+            LevelChanged += ChangeTriangulation;
+        }
+
+        private void ChangeTriangulation(object? sender, EventArgs e)
+        {
+            Triangularization();
+            RotateAllPoints();
         }
 
         private void ChangeRotationMatrices(object? sender, EventArgs e)

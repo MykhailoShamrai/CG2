@@ -33,25 +33,6 @@ namespace CG2.Drawers
             return;
         }
 
-        public void DrawLineBetween(Vector3 lightPosition, Triangle polygon, Color color, DirectBitmap canvas)
-        {
-            // TODO:
-            Point first = new Point(0, 0);
-            Point second = new Point(0, 0);
-            foreach (MyEdge edge in polygon.Edges)
-            {
-                first.X = (int)edge.First.RotatedPosition.X;
-                first.Y = (int)edge.First.RotatedPosition.Y;
-                second.X = (int)edge.Second.RotatedPosition.X;
-                second.Y = (int)edge.Second.RotatedPosition.Y;
-                Draw(first, second, canvas, lightPosition, polygon, Color.White, 1, 1, 3, Color.Yellow);
-            }
-        }
-
-        public void DrawLineBetween(Vector3 lightPosition, AbstractPolygon polygon, Color color, DirectBitmap canvas)
-        {
-            return;
-        }
 
         public Color ReturnColor((float lam1, float lam2, float lam3) lambdas, Vector3 lightPos, Triangle tr,
                                     Color color, Color lightColor, float kd, float ks, int m)
@@ -98,6 +79,28 @@ namespace CG2.Drawers
             return Color.FromArgb((int)r, (int)g, (int)b);
         }
 
+        // This part of code is unused, but I leave it, may be in future I'll need it
+
+
+        public void DrawLineBetween(Vector3 lightPosition, Triangle polygon, Color color, DirectBitmap canvas)
+        {
+            // TODO:
+            Point first = new Point(0, 0);
+            Point second = new Point(0, 0);
+            foreach (MyEdge edge in polygon.Edges)
+            {
+                first.X = (int)edge.First.RotatedPosition.X;
+                first.Y = (int)edge.First.RotatedPosition.Y;
+                second.X = (int)edge.Second.RotatedPosition.X;
+                second.Y = (int)edge.Second.RotatedPosition.Y;
+                Draw(first, second, canvas, lightPosition, polygon, Color.White, 1, 1, 3, Color.Yellow);
+            }
+        }
+
+        public void DrawLineBetween(Vector3 lightPosition, AbstractPolygon polygon, Color color, DirectBitmap canvas)
+        {
+            return;
+        }
 
         // Brezenham drawing algo
         public void Draw(Point first, Point second, DirectBitmap canvas, Vector3 lightPos, Triangle tr,

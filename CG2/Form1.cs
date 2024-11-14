@@ -84,9 +84,7 @@ namespace CG2
         private void trackTriangulation_ValueChanged(object sender, EventArgs e)
         {
             Plane.LevelOfTriang = trackTriangulation.Value;
-            Plane.Triangularization();
-            Plane.RotateAllPoints();
-            PictureBoxMain.Invalidate();
+            PictureBoxMain.Refresh();
         }
     }
 }
