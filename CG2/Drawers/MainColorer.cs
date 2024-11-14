@@ -40,8 +40,7 @@ namespace CG2.Drawers
         }
 
         public void DrawHorizontalLineBetween(Vector3 lightPosition, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
-        {
-            return;
+        {        
         }
 
 

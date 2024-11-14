@@ -73,20 +73,32 @@ namespace CG2
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
         {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
-            PictureBoxMain.Refresh();
+            PictureBoxMain.Invalidate();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
-            PictureBoxMain.Refresh();
+            PictureBoxMain.Invalidate();
         }
 
 
         private void trackTriangulation_ValueChanged(object sender, EventArgs e)
         {
             Plane.LevelOfTriang = trackTriangulation.Value;
-            PictureBoxMain.Refresh();
+            PictureBoxMain.Invalidate();
+        }
+
+        private void DrawControlPointsCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            this.MainDrawer.DrawControlPointsBool = DrawControlPointsCheck.Checked;
+            PictureBoxMain.Invalidate();
+        }
+
+        private void DrawBordersOfTrianglesCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            this.MainDrawer.DrawBordersBool = DrawBordersOfTrianglesCheck.Checked;
+            PictureBoxMain.Invalidate();
         }
     }
 }

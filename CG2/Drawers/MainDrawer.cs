@@ -14,6 +14,8 @@ namespace CG2.Drawers
 {
     public class MainDrawer
     {
+        public bool DrawControlPointsBool { get; set; } = true;
+        public bool DrawBordersBool { get; set; } = true;
         IColorer Colorer { get; set; }
         public DirectBitmap Canvas { get; set; }
         public int LevelOfTriang { get; set; } = 0;
@@ -32,8 +34,10 @@ namespace CG2.Drawers
         public void Draw(Graphics g, Vector3 lightSource)
         {
             FillTrianglesAccordingToLightSource(g, lightSource);
-            //DrawBordersOfTriangles(g);
-            DrawControlPoints(g);
+            if (DrawBordersBool) 
+                DrawBordersOfTriangles(g);
+            if (DrawControlPointsBool)
+                DrawControlPoints(g);
         }
 
         public void DrawControlPoints(Graphics g, int size = 4)
@@ -205,7 +209,7 @@ namespace CG2.Drawers
         public void FillTrianglesAccordingToLightSource(Graphics g, Vector3 lightSource)
         {
             foreach (var triangle in Plane.Triangles)
-                ColorAPolygon(Colorer, triangle, lightSource, Color.Yellow, Canvas);
+                ColorAPolygon(Colorer, triangle, lightSource, Color.Green, Canvas);
         }
     }
 }
