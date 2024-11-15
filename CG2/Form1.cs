@@ -1,5 +1,6 @@
 using CG2.Drawers;
 using CG2.Shapes;
+using System.Diagnostics;
 using System.Numerics;
 
 
@@ -7,24 +8,17 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        public LightSourceAnimator Animator { get; set; }
         public IColorer Colorer { get; set; }
         public DirectBitmap DirectBitmap { get; set; }
         public MyPlane Plane { get; set; }
         public MainDrawer MainDrawer { get; set; }
-        public Vector3 LightSource { get; set; }
+        public LightSource LightSource { get; set; }
         public ShapeForm()
         {
             InitializeComponent();
-            Colorer = new MainColorer(1.0f, 1.0f, 1);
-            LightSource = new Vector3(300, 200, 1000);
-            DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
-            PictureBoxMain.Image = DirectBitmap.Bitmap;
-            Plane = new MyPlane();
-            ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
-            Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
-            Plane.Triangularization();
-            MainDrawer = new MainDrawer(Plane, DirectBitmap, Colorer);
 
+            // Track Bars
             TrackAroundZ.Minimum = (int)Math.Round(1000 * -Math.PI / 4);
             TrackAroundZ.Maximum = (int)Math.Round(1000 * Math.PI / 4);
             TrackAroundZ.TickFrequency = 100;
@@ -34,7 +28,45 @@ namespace CG2
             trackTriangulation.Minimum = 0;
             trackTriangulation.Maximum = 4;
             trackTriangulation.Value = 0;
-            PictureBoxMain_Paint(PictureBoxMain, new PaintEventArgs(Graphics.FromImage(PictureBoxMain.Image), PictureBoxMain.ClientRectangle));
+            trackTriangulation.TickFrequency = 1;
+
+            trackBarM.Minimum = 0;
+            trackBarM.Maximum = 100;
+            trackBarM.Value = 1;
+            trackBarM.TickFrequency = 1;
+            // Here we have to normalize the values after, it'll important
+            trackBarKd.Minimum = 0;
+            trackBarKd.Maximum = 100;
+            trackBarKd.Value = 100;
+            trackBarKs.Minimum = 0;
+            trackBarKs.Maximum = 100;
+            trackBarKs.Value = 100;
+            // Starting values from trackbar
+            Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value);
+            LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
+            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 1000, Step = 10};
+            DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
+            PictureBoxMain.Image = DirectBitmap.Bitmap;
+            Plane = new MyPlane();
+            ReadStartVerticesFromFile("data.txt", Plane.ControlPoints);
+            Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
+            Plane.Triangularization();
+            MainDrawer = new MainDrawer(Plane, DirectBitmap, Colorer);
+            Animate();
+        }
+
+        public void Animate()
+        {
+            System.Timers.Timer timer = new System.Timers.Timer(100);
+            timer.Elapsed += Timer_Elapsed; 
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        {
+            Animator.LightMove();
+            PictureBoxMain.Invalidate();
         }
 
         static void ReadStartVerticesFromFile(string fileName, List<Vector3> listOfPoints)
@@ -58,6 +90,7 @@ namespace CG2
             }
         }
 
+
         private void PictureBoxMain_Paint(object sender, PaintEventArgs e)
         {
             using (Graphics g = Graphics.FromImage(PictureBoxMain.Image))
@@ -65,20 +98,22 @@ namespace CG2
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
-                MainDrawer.Draw(g, LightSource);
+                MainDrawer.Draw(g, LightSource.Position);
             }
-            //PictureBoxMain.Image = DirectBitmap.Bitmap;
+            e.Graphics.DrawImage(PictureBoxMain.Image, 0, 0);
         }
 
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
         {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
+           
             PictureBoxMain.Invalidate();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
+           
             PictureBoxMain.Invalidate();
         }
 
@@ -86,6 +121,7 @@ namespace CG2
         private void trackTriangulation_ValueChanged(object sender, EventArgs e)
         {
             Plane.LevelOfTriang = trackTriangulation.Value;
+
             PictureBoxMain.Invalidate();
         }
 
@@ -98,6 +134,27 @@ namespace CG2
         private void DrawBordersOfTrianglesCheck_CheckedChanged(object sender, EventArgs e)
         {
             this.MainDrawer.DrawBordersBool = DrawBordersOfTrianglesCheck.Checked;
+            PictureBoxMain.Invalidate();
+        }
+
+        private void trackBarM_Scroll(object sender, EventArgs e)
+        {
+            Colorer.M = trackBarM.Value;
+            MValueLabel.Text = trackBarM.Value.ToString();
+            PictureBoxMain.Invalidate();
+        }
+
+        private void trackBarKs_Scroll(object sender, EventArgs e)
+        {
+            Colorer.Ks = (float)trackBarKs.Value / 100;
+            KsValueLabel.Text = Colorer.Ks.ToString();
+            PictureBoxMain.Invalidate();
+        }
+
+        private void trackBarKd_Scroll(object sender, EventArgs e)
+        {
+            Colorer.Kd = (float)trackBarKd.Value / 100;
+            KdValueLabel.Text = Colorer.Kd.ToString();
             PictureBoxMain.Invalidate();
         }
     }

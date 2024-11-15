@@ -33,7 +33,7 @@ namespace CG2.Drawers
                 tmp.Y = y;
                 var res = Triangle.ReturnBarycentricCoords(tmp, polygon);
                 // Change this hard coded values
-                Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, 1, 1, 3);
+                Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, Kd, Ks, M);
                 canvas.SetPixel(x1, y, col);
                 x1 += k;
             }
@@ -62,11 +62,12 @@ namespace CG2.Drawers
             //if (float.IsNaN(cos1)) 
             //    cos1 = 0;
             float tmp = Vector3.Dot(V, R);
-            float cos2 = 1.0f;
-            for (int i = 0; i < m; i++)
-            {
-                cos2 *= tmp;
-            }
+            float cos2 = tmp;
+            cos2 = MathF.Pow(cos2, m);
+            //for (int i = 0; i < m; i++)
+            //{
+            //    cos2 *= tmp;
+            //}
             cos2 = cos2 < 0 ? 0 : cos2;
             float rO = (float)color.R / 255;
             float gO = (float)color.G / 255;

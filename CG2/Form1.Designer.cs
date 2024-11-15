@@ -41,20 +41,21 @@
             LevelOfTriangulation = new Label();
             trackTriangulation = new TrackBar();
             tableLayoutPanel4 = new TableLayoutPanel();
+            trackBar3 = new TrackBar();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            KsLabel = new Label();
+            KsValueLabel = new Label();
             DrawControlPointsCheck = new CheckBox();
             DrawBordersOfTrianglesCheck = new CheckBox();
-            trackBar1 = new TrackBar();
+            trackBarM = new TrackBar();
             tableLayoutPanel5 = new TableLayoutPanel();
             MLabel = new Label();
             MValueLabel = new Label();
             tableLayoutPanel6 = new TableLayoutPanel();
             KdLabel = new Label();
             KdValueLabel = new Label();
-            trackBar2 = new TrackBar();
-            trackBar3 = new TrackBar();
-            tableLayoutPanel7 = new TableLayoutPanel();
-            label1 = new Label();
-            label2 = new Label();
+            trackBarKd = new TrackBar();
+            trackBarKs = new TrackBar();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -65,12 +66,13 @@
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).BeginInit();
             tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            tableLayoutPanel5.SuspendLayout();
-            tableLayoutPanel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
             tableLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarM).BeginInit();
+            tableLayoutPanel5.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarKd).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarKs).BeginInit();
             SuspendLayout();
             // 
             // MainUnder
@@ -234,10 +236,11 @@
             tableLayoutPanel4.Controls.Add(tableLayoutPanel7, 0, 7);
             tableLayoutPanel4.Controls.Add(DrawControlPointsCheck, 0, 1);
             tableLayoutPanel4.Controls.Add(DrawBordersOfTrianglesCheck, 0, 2);
-            tableLayoutPanel4.Controls.Add(trackBar1, 0, 4);
+            tableLayoutPanel4.Controls.Add(trackBarM, 0, 4);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 3);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel6, 0, 5);
-            tableLayoutPanel4.Controls.Add(trackBar2, 0, 6);
+            tableLayoutPanel4.Controls.Add(trackBarKd, 0, 6);
+            tableLayoutPanel4.Controls.Add(trackBarKs, 0, 8);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(128, 3);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -250,10 +253,53 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 31F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 391F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 381F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Size = new Size(103, 691);
             tableLayoutPanel4.TabIndex = 1;
+            // 
+            // trackBar3
+            // 
+            trackBar3.Dock = DockStyle.Fill;
+            trackBar3.Location = new Point(3, 3);
+            trackBar3.Name = "trackBar3";
+            trackBar3.Size = new Size(97, 1);
+            trackBar3.TabIndex = 7;
+            // 
+            // tableLayoutPanel7
+            // 
+            tableLayoutPanel7.ColumnCount = 2;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 61F));
+            tableLayoutPanel7.Controls.Add(KsLabel, 0, 0);
+            tableLayoutPanel7.Controls.Add(KsValueLabel, 1, 0);
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.Location = new Point(3, 251);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 1;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.Size = new Size(97, 25);
+            tableLayoutPanel7.TabIndex = 8;
+            // 
+            // KsLabel
+            // 
+            KsLabel.AutoSize = true;
+            KsLabel.Location = new Point(3, 0);
+            KsLabel.Name = "KsLabel";
+            KsLabel.Size = new Size(24, 20);
+            KsLabel.TabIndex = 0;
+            KsLabel.Text = "Ks";
+            // 
+            // KsValueLabel
+            // 
+            KsValueLabel.AutoSize = true;
+            KsValueLabel.Dock = DockStyle.Fill;
+            KsValueLabel.Location = new Point(39, 0);
+            KsValueLabel.Name = "KsValueLabel";
+            KsValueLabel.Size = new Size(55, 25);
+            KsValueLabel.TabIndex = 1;
+            KsValueLabel.Text = "1";
             // 
             // DrawControlPointsCheck
             // 
@@ -283,13 +329,14 @@
             DrawBordersOfTrianglesCheck.UseVisualStyleBackColor = true;
             DrawBordersOfTrianglesCheck.CheckedChanged += DrawBordersOfTrianglesCheck_CheckedChanged;
             // 
-            // trackBar1
+            // trackBarM
             // 
-            trackBar1.Dock = DockStyle.Fill;
-            trackBar1.Location = new Point(3, 164);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(97, 24);
-            trackBar1.TabIndex = 3;
+            trackBarM.Dock = DockStyle.Fill;
+            trackBarM.Location = new Point(3, 164);
+            trackBarM.Name = "trackBarM";
+            trackBarM.Size = new Size(97, 24);
+            trackBarM.TabIndex = 3;
+            trackBarM.Scroll += trackBarM_Scroll;
             // 
             // tableLayoutPanel5
             // 
@@ -358,55 +405,22 @@
             KdValueLabel.TabIndex = 7;
             KdValueLabel.Text = "1";
             // 
-            // trackBar2
+            // trackBarKd
             // 
-            trackBar2.Dock = DockStyle.Fill;
-            trackBar2.Location = new Point(3, 222);
-            trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(97, 23);
-            trackBar2.TabIndex = 6;
+            trackBarKd.Dock = DockStyle.Fill;
+            trackBarKd.Location = new Point(3, 222);
+            trackBarKd.Name = "trackBarKd";
+            trackBarKd.Size = new Size(97, 23);
+            trackBarKd.TabIndex = 6;
+            trackBarKd.Scroll += trackBarKd_Scroll;
             // 
-            // trackBar3
+            // trackBarKs
             // 
-            trackBar3.Dock = DockStyle.Fill;
-            trackBar3.Location = new Point(3, 3);
-            trackBar3.Name = "trackBar3";
-            trackBar3.Size = new Size(97, 1);
-            trackBar3.TabIndex = 7;
-            // 
-            // tableLayoutPanel7
-            // 
-            tableLayoutPanel7.ColumnCount = 2;
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 61F));
-            tableLayoutPanel7.Controls.Add(label1, 0, 0);
-            tableLayoutPanel7.Controls.Add(label2, 1, 0);
-            tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 251);
-            tableLayoutPanel7.Name = "tableLayoutPanel7";
-            tableLayoutPanel7.RowCount = 1;
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(97, 25);
-            tableLayoutPanel7.TabIndex = 8;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(22, 20);
-            label1.TabIndex = 0;
-            label1.Text = "m";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(39, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(55, 25);
-            label2.TabIndex = 1;
-            label2.Text = "1";
+            trackBarKs.Location = new Point(3, 282);
+            trackBarKs.Name = "trackBarKs";
+            trackBarKs.Size = new Size(97, 24);
+            trackBarKs.TabIndex = 9;
+            trackBarKs.Scroll += trackBarKs_Scroll;
             // 
             // ShapeForm
             // 
@@ -431,15 +445,16 @@
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).EndInit();
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
+            tableLayoutPanel7.ResumeLayout(false);
+            tableLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarM).EndInit();
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel5.PerformLayout();
             tableLayoutPanel6.ResumeLayout(false);
             tableLayoutPanel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
-            tableLayoutPanel7.ResumeLayout(false);
-            tableLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarKd).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarKs).EndInit();
             ResumeLayout(false);
         }
 
@@ -460,17 +475,18 @@
         private TableLayoutPanel tableLayoutPanel4;
         private CheckBox DrawControlPointsCheck;
         private CheckBox DrawBordersOfTrianglesCheck;
-        private TrackBar trackBar1;
+        private TrackBar trackBarM;
         private TableLayoutPanel tableLayoutPanel5;
         private Label MLabel;
         private Label MValueLabel;
         private TableLayoutPanel tableLayoutPanel6;
         private Label KdLabel;
         private Label KdValueLabel;
-        private TrackBar trackBar2;
+        private TrackBar trackBarKd;
         private TrackBar trackBar3;
         private TableLayoutPanel tableLayoutPanel7;
-        private Label label1;
-        private Label label2;
+        private Label KsLabel;
+        private Label KsValueLabel;
+        private TrackBar trackBarKs;
     }
 }
