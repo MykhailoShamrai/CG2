@@ -21,25 +21,23 @@ namespace CG2.Drawers
             M = m;
         }
 
-        public void DrawHorizontalLineBetween(Vector3 lightPosition, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
             int dx = x2 - x1;
             int k = dx < 0 ? -1 : 1;
             Vector3 tmp = new Vector3(0 ,0, 0);
-            Vector3 L = new Vector3();
             while (x1 <= x2)
             {
                 tmp.X = x1;
                 tmp.Y = y;
                 var res = Triangle.ReturnBarycentricCoords(tmp, polygon);
-                // Change this hard coded values
-                Color col = ReturnColor(res, lightPosition, polygon, color, Color.White, Kd, Ks, M);
+                Color col = ReturnColor(res, lightSource.Position, polygon, color, lightSource.Color, Kd, Ks, M);
                 canvas.SetPixel(x1, y, col);
                 x1 += k;
             }
         }
 
-        public void DrawHorizontalLineBetween(Vector3 lightPosition, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {        
         }
 
@@ -93,7 +91,7 @@ namespace CG2.Drawers
         // This part of code is unused, but I leave it, may be in future I'll need it
 
 
-        public void DrawLineBetween(Vector3 lightPosition, Triangle polygon, Color color, DirectBitmap canvas)
+        public void DrawLineBetween(LightSource lightSource, Triangle polygon, Color color, DirectBitmap canvas)
         {
             // TODO:
             Point first = new Point(0, 0);
@@ -104,13 +102,12 @@ namespace CG2.Drawers
                 first.Y = (int)edge.First.RotatedPosition.Y;
                 second.X = (int)edge.Second.RotatedPosition.X;
                 second.Y = (int)edge.Second.RotatedPosition.Y;
-                Draw(first, second, canvas, lightPosition, polygon, Color.White, 1, 1, 3, Color.Yellow);
+                Draw(first, second, canvas, lightSource.Position, polygon, lightSource.Color, Kd, Ks, M, Color.Yellow);
             }
         }
 
-        public void DrawLineBetween(Vector3 lightPosition, AbstractPolygon polygon, Color color, DirectBitmap canvas)
+        public void DrawLineBetween(LightSource lightSource, AbstractPolygon polygon, Color color, DirectBitmap canvas)
         {
-            return;
         }
 
         // Brezenham drawing algo
@@ -159,12 +156,10 @@ namespace CG2.Drawers
 
             for (int x = first.X; x <= second.X; x++)
             {
-                //if (x >= 0 && y >= 0)
                 {
                     if (color.HasValue)
                     {
                         Vector3 tmp = new Vector3(x, y, 0);
-                        Vector3 L = new Vector3();
                         var res = Triangle.ReturnBarycentricCoords(tmp, tr);
                         canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
                     }
@@ -203,12 +198,10 @@ namespace CG2.Drawers
 
             for (int y = first.Y; y <= second.Y; y++)
             {
-                //if (x >= 0 && y >= 0)
                 {
                     if (color.HasValue)
                     {
                         Vector3 tmp = new Vector3(x, y, 0);
-                        Vector3 L = new Vector3();
                         var res = Triangle.ReturnBarycentricCoords(tmp, tr);
                         canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
                     }

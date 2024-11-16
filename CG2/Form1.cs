@@ -9,6 +9,7 @@ namespace CG2
     public partial class ShapeForm : Form
     {
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
+        private Color _color = Color.CadetBlue;
         public LightSourceAnimator Animator { get; set; }
         public IColorer Colorer { get; set; }
         public DirectBitmap DirectBitmap { get; set; }
@@ -44,8 +45,10 @@ namespace CG2
             trackBarKs.Value = 100;
             // Starting values from trackbar
             Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value);
-            LightSource = new LightSource { Position = new Vector3(0, 0, ChangeZTrack.Value), Color = Color.White };
-            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 1000, Step = 10 };
+            LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
+            ChangeZTrack.Value = 1000;
+            ZAxisValue.Text = ChangeZTrack.Value.ToString();
+            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 2000, Step = 10 };
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
@@ -98,7 +101,7 @@ namespace CG2
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
-                MainDrawer.Draw(g, LightSource.Position);
+                MainDrawer.Draw(g, LightSource, _color);
             }
             e.Graphics.DrawImage(PictureBoxMain.Image, 0, 0);
         }
@@ -178,6 +181,25 @@ namespace CG2
                 LightSource.Position = new Vector3(LightSource.Position.X, LightSource.Position.Y, ChangeZTrack.Value);
             ZAxisValue.Text = ChangeZTrack.Value.ToString();
             PictureBoxMain.Invalidate();
+        }
+
+        private void SetLightColorButton_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.ShowDialog();
+                lock (LightSource)
+                    LightSource.Color = dialog.Color;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.ShowDialog();
+                _color = dialog.Color;
+            }
         }
     }
 }

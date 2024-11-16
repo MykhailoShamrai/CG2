@@ -41,11 +41,19 @@
             LevelOfTriangulation = new Label();
             trackTriangulation = new TrackBar();
             tableLayoutPanel8 = new TableLayoutPanel();
+            tableLayoutPanel11 = new TableLayoutPanel();
+            ColorOfSurfacePanel = new Panel();
+            button1 = new Button();
+            ChangeColorForSurface = new Label();
             StartAnimationButton = new Button();
             tableLayoutPanel9 = new TableLayoutPanel();
             ZAxis = new Label();
             ZAxisValue = new Label();
             ChangeZTrack = new TrackBar();
+            ChangeColorLightLabel = new Label();
+            tableLayoutPanel10 = new TableLayoutPanel();
+            ColorOfLightPanel = new Panel();
+            SetLighColorButton = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
             trackBar3 = new TrackBar();
             tableLayoutPanel7 = new TableLayoutPanel();
@@ -72,8 +80,10 @@
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).BeginInit();
             tableLayoutPanel8.SuspendLayout();
+            tableLayoutPanel11.SuspendLayout();
             tableLayoutPanel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ChangeZTrack).BeginInit();
+            tableLayoutPanel10.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
             tableLayoutPanel7.SuspendLayout();
@@ -243,21 +253,70 @@
             // 
             tableLayoutPanel8.ColumnCount = 1;
             tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel8.Controls.Add(tableLayoutPanel11, 0, 6);
+            tableLayoutPanel8.Controls.Add(ChangeColorForSurface, 0, 5);
             tableLayoutPanel8.Controls.Add(StartAnimationButton, 0, 0);
             tableLayoutPanel8.Controls.Add(tableLayoutPanel9, 0, 1);
             tableLayoutPanel8.Controls.Add(ChangeZTrack, 0, 2);
+            tableLayoutPanel8.Controls.Add(ChangeColorLightLabel, 0, 3);
+            tableLayoutPanel8.Controls.Add(tableLayoutPanel10, 0, 4);
             tableLayoutPanel8.Dock = DockStyle.Fill;
             tableLayoutPanel8.Location = new Point(3, 191);
             tableLayoutPanel8.Name = "tableLayoutPanel8";
-            tableLayoutPanel8.RowCount = 6;
+            tableLayoutPanel8.RowCount = 8;
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 51F));
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 47F));
-            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 181F));
-            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 43F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             tableLayoutPanel8.Size = new Size(107, 371);
             tableLayoutPanel8.TabIndex = 5;
+            // 
+            // tableLayoutPanel11
+            // 
+            tableLayoutPanel11.ColumnCount = 2;
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.35644F));
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.6435661F));
+            tableLayoutPanel11.Controls.Add(ColorOfSurfacePanel, 1, 0);
+            tableLayoutPanel11.Controls.Add(button1, 0, 0);
+            tableLayoutPanel11.Dock = DockStyle.Fill;
+            tableLayoutPanel11.Location = new Point(3, 259);
+            tableLayoutPanel11.Name = "tableLayoutPanel11";
+            tableLayoutPanel11.RowCount = 1;
+            tableLayoutPanel11.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel11.Size = new Size(101, 39);
+            tableLayoutPanel11.TabIndex = 6;
+            // 
+            // ColorOfSurfacePanel
+            // 
+            ColorOfSurfacePanel.Location = new Point(68, 3);
+            ColorOfSurfacePanel.Name = "ColorOfSurfacePanel";
+            ColorOfSurfacePanel.Size = new Size(30, 33);
+            ColorOfSurfacePanel.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.Dock = DockStyle.Fill;
+            button1.Location = new Point(3, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(59, 33);
+            button1.TabIndex = 1;
+            button1.Text = "Set";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // ChangeColorForSurface
+            // 
+            ChangeColorForSurface.AutoSize = true;
+            ChangeColorForSurface.Dock = DockStyle.Fill;
+            ChangeColorForSurface.Location = new Point(3, 213);
+            ChangeColorForSurface.Name = "ChangeColorForSurface";
+            ChangeColorForSurface.Size = new Size(101, 43);
+            ChangeColorForSurface.TabIndex = 5;
+            ChangeColorForSurface.Text = "Change color for surface";
             // 
             // StartAnimationButton
             // 
@@ -282,7 +341,7 @@
             tableLayoutPanel9.Name = "tableLayoutPanel9";
             tableLayoutPanel9.RowCount = 1;
             tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.Size = new Size(101, 26);
+            tableLayoutPanel9.Size = new Size(101, 32);
             tableLayoutPanel9.TabIndex = 1;
             // 
             // ZAxis
@@ -291,7 +350,7 @@
             ZAxis.Dock = DockStyle.Fill;
             ZAxis.Location = new Point(3, 0);
             ZAxis.Name = "ZAxis";
-            ZAxis.Size = new Size(31, 26);
+            ZAxis.Size = new Size(31, 32);
             ZAxis.TabIndex = 0;
             ZAxis.Text = "Z";
             // 
@@ -301,20 +360,62 @@
             ZAxisValue.Dock = DockStyle.Fill;
             ZAxisValue.Location = new Point(40, 0);
             ZAxisValue.Name = "ZAxisValue";
-            ZAxisValue.Size = new Size(58, 26);
+            ZAxisValue.Size = new Size(58, 32);
             ZAxisValue.TabIndex = 1;
             ZAxisValue.Text = "500";
             // 
             // ChangeZTrack
             // 
             ChangeZTrack.Dock = DockStyle.Fill;
-            ChangeZTrack.Location = new Point(3, 75);
+            ChangeZTrack.Location = new Point(3, 81);
             ChangeZTrack.Maximum = 1000;
             ChangeZTrack.Minimum = -1000;
             ChangeZTrack.Name = "ChangeZTrack";
-            ChangeZTrack.Size = new Size(101, 45);
+            ChangeZTrack.Size = new Size(101, 41);
             ChangeZTrack.TabIndex = 2;
             ChangeZTrack.Scroll += ChangeZTrack_Scroll;
+            // 
+            // ChangeColorLightLabel
+            // 
+            ChangeColorLightLabel.AutoSize = true;
+            ChangeColorLightLabel.Dock = DockStyle.Fill;
+            ChangeColorLightLabel.Location = new Point(3, 125);
+            ChangeColorLightLabel.Name = "ChangeColorLightLabel";
+            ChangeColorLightLabel.Size = new Size(101, 42);
+            ChangeColorLightLabel.TabIndex = 3;
+            ChangeColorLightLabel.Text = "Change color for light";
+            // 
+            // tableLayoutPanel10
+            // 
+            tableLayoutPanel10.ColumnCount = 2;
+            tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.35644F));
+            tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.6435661F));
+            tableLayoutPanel10.Controls.Add(ColorOfLightPanel, 1, 0);
+            tableLayoutPanel10.Controls.Add(SetLighColorButton, 0, 0);
+            tableLayoutPanel10.Location = new Point(3, 170);
+            tableLayoutPanel10.Name = "tableLayoutPanel10";
+            tableLayoutPanel10.RowCount = 1;
+            tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel10.Size = new Size(101, 40);
+            tableLayoutPanel10.TabIndex = 4;
+            // 
+            // ColorOfLightPanel
+            // 
+            ColorOfLightPanel.Location = new Point(68, 3);
+            ColorOfLightPanel.Name = "ColorOfLightPanel";
+            ColorOfLightPanel.Size = new Size(30, 34);
+            ColorOfLightPanel.TabIndex = 0;
+            // 
+            // SetLighColorButton
+            // 
+            SetLighColorButton.Dock = DockStyle.Fill;
+            SetLighColorButton.Location = new Point(3, 3);
+            SetLighColorButton.Name = "SetLighColorButton";
+            SetLighColorButton.Size = new Size(59, 34);
+            SetLighColorButton.TabIndex = 1;
+            SetLighColorButton.Text = "Set";
+            SetLighColorButton.UseVisualStyleBackColor = true;
+            SetLighColorButton.Click += SetLightColorButton_Click;
             // 
             // tableLayoutPanel4
             // 
@@ -533,9 +634,11 @@
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).EndInit();
             tableLayoutPanel8.ResumeLayout(false);
             tableLayoutPanel8.PerformLayout();
+            tableLayoutPanel11.ResumeLayout(false);
             tableLayoutPanel9.ResumeLayout(false);
             tableLayoutPanel9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ChangeZTrack).EndInit();
+            tableLayoutPanel10.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
@@ -587,5 +690,13 @@
         private Label ZAxis;
         private Label ZAxisValue;
         private TrackBar ChangeZTrack;
+        private Label ChangeColorLightLabel;
+        private TableLayoutPanel tableLayoutPanel10;
+        private TableLayoutPanel tableLayoutPanel11;
+        private Panel ColorOfSurfacePanel;
+        private Button button1;
+        private Label ChangeColorForSurface;
+        private Panel ColorOfLightPanel;
+        private Button SetLighColorButton;
     }
 }
