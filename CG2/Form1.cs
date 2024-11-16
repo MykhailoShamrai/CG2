@@ -1,4 +1,4 @@
-using CG2.Drawers;
+﻿using CG2.Drawers;
 using CG2.Shapes;
 using System.Diagnostics;
 using System.Numerics;
@@ -8,6 +8,7 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        private DirectBitmap _imageBitmap;
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
         private Color _color = Color.CadetBlue;
         public LightSourceAnimator Animator { get; set; }
@@ -56,6 +57,11 @@ namespace CG2
             Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
             Plane.Triangularization();
             MainDrawer = new MainDrawer(Plane, DirectBitmap, Colorer);
+            ColorOfLightPanel.BackColor = LightSource.Color;
+            ColorOfSurfacePanel.BackColor = _color;
+
+            // 
+            
             Animate();
         }
 
@@ -70,6 +76,18 @@ namespace CG2
         {
             Animator.LightMove();
             PictureBoxMain.Invalidate();
+        }
+
+        static DirectBitmap ReturnImageInDirectBitmap(string fileName)
+        {
+            using (FileStream fs = File.OpenRead($"./{fileName}"))
+            {
+                Bitmap tmp = new Bitmap(fs);
+                DirectBitmap ret = new DirectBitmap(tmp.Width, tmp.Height);
+                Graphics g = Graphics.FromImage(ret.Bitmap);
+                g.DrawImageUnscaled(tmp, 0, 0);
+                return ret;
+            }
         }
 
         static void ReadStartVerticesFromFile(string fileName, List<Vector3> listOfPoints)
@@ -190,7 +208,9 @@ namespace CG2
                 dialog.ShowDialog();
                 lock (LightSource)
                     LightSource.Color = dialog.Color;
+                ColorOfLightPanel.BackColor = dialog.Color;
             }
+            PictureBoxMain.Invalidate();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -199,7 +219,9 @@ namespace CG2
             {
                 dialog.ShowDialog();
                 _color = dialog.Color;
+                ColorOfSurfacePanel.BackColor = dialog.Color;
             }
+            PictureBoxMain.Invalidate();
         }
     }
 }

@@ -48,7 +48,10 @@ namespace CG2.Shapes
                                            c - a).Length();
             float sareaABP = Vector3.Cross(point - a,
                                            b - a).Length();
-            return (sareaPBC / sareaABC, sareaAPC / sareaABC, sareaABP / sareaABC);
+            float aa = sareaPBC / sareaABC;
+            float bb = sareaAPC / sareaABC;
+            float cc = 1 - aa - bb;
+            return (aa, bb, cc);
         }
     }
 }

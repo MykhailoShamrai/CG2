@@ -1,4 +1,5 @@
 ﻿using CG2.Shapes;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CG2.Drawers
 {
     public class MainColorer : IColorer
     {
+        public DirectBitmap? Image { get; set; } = null; 
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }
@@ -31,10 +33,28 @@ namespace CG2.Drawers
                 tmp.X = x1;
                 tmp.Y = y;
                 var res = Triangle.ReturnBarycentricCoords(tmp, polygon);
+                if (Image != null)
+                {
+                    color = FindColorFromImage(res, polygon);
+                }
                 Color col = ReturnColor(res, lightSource.Position, polygon, color, lightSource.Color, Kd, Ks, M);
+                
                 canvas.SetPixel(x1, y, col);
                 x1 += k;
             }
+        }
+
+        private Color FindColorFromImage((float lam1, float lam2, float lam3) res, Triangle polygon)
+        {
+            var vertices = polygon.Points;
+            float u = res.lam1 * vertices[0].U + res.lam2 * vertices[1].U + res.lam3 * vertices[2].U;
+            float v = res.lam1 * vertices[0].V + res.lam2 * vertices[1].V + res.lam3 * vertices[2].V;
+            u = u > 1 ? 1 : u;
+            u = u < 0 ? 0 : u;
+            v = v > 1 ? 1 : v;
+            v = v < 0 ? 0 : v;
+            var col = Image.GetPixel((int)(v * (Image.Width - 1)), (int)(u * (Image.Height - 1)));
+            return col;
         }
 
         public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
@@ -156,17 +176,16 @@ namespace CG2.Drawers
 
             for (int x = first.X; x <= second.X; x++)
             {
+                
+                if (color.HasValue)
                 {
-                    if (color.HasValue)
-                    {
-                        Vector3 tmp = new Vector3(x, y, 0);
-                        var res = Triangle.ReturnBarycentricCoords(tmp, tr);
-                        canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
-                    }
-                    else
-                    {
-                        canvas.SetPixel(x, y, Color.Black);
-                    }
+                    Vector3 tmp = new Vector3(x, y, 0);
+                    var res = Triangle.ReturnBarycentricCoords(tmp, tr);
+                    canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
+                }
+                else
+                {
+                    canvas.SetPixel(x, y, Color.Black);
                 }
                 if (D > 0)
                 {
@@ -198,17 +217,16 @@ namespace CG2.Drawers
 
             for (int y = first.Y; y <= second.Y; y++)
             {
+                
+                if (color.HasValue)
                 {
-                    if (color.HasValue)
-                    {
-                        Vector3 tmp = new Vector3(x, y, 0);
-                        var res = Triangle.ReturnBarycentricCoords(tmp, tr);
-                        canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
-                    }
-                    else
-                    {
-                        canvas.SetPixel(x, y, Color.Black);
-                    }
+                    Vector3 tmp = new Vector3(x, y, 0);
+                    var res = Triangle.ReturnBarycentricCoords(tmp, tr);
+                    canvas.SetPixel(x, y, ReturnColor(res, lightPos, tr, color.Value, lightColor, kd, ks, m));
+                }
+                else
+                {
+                    canvas.SetPixel(x, y, Color.Black);
                 }
                 if (D > 0)
                 {
