@@ -2,6 +2,7 @@
 using CG2.Shapes;
 using System.Diagnostics;
 using System.Numerics;
+using System.Windows.Forms;
 
 
 namespace CG2
@@ -61,7 +62,8 @@ namespace CG2
             ColorOfSurfacePanel.BackColor = _color;
 
             // 
-            
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "images.jpg");
+            _imageBitmap = ReturnImageInDirectBitmap(path);
             Animate();
         }
 
@@ -80,7 +82,7 @@ namespace CG2
 
         static DirectBitmap ReturnImageInDirectBitmap(string fileName)
         {
-            using (FileStream fs = File.OpenRead($"./{fileName}"))
+            using (FileStream fs = File.OpenRead($"{fileName}"))
             {
                 Bitmap tmp = new Bitmap(fs);
                 DirectBitmap ret = new DirectBitmap(tmp.Width, tmp.Height);
@@ -222,6 +224,29 @@ namespace CG2
                 ColorOfSurfacePanel.BackColor = dialog.Color;
             }
             PictureBoxMain.Invalidate();
+        }
+
+        private void UseImageCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UseImageCheckBox.Checked)
+                Colorer.Image = _imageBitmap;
+            else
+                Colorer.Image = null;
+        }
+
+        private void ChangeImageButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "All files (*.png;*.jpg)|*.png;*.jpg|png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
+                dialog.RestoreDirectory = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = dialog.FileName;
+                    _imageBitmap = ReturnImageInDirectBitmap(filePath);
+                    UseImageCheckBox_CheckedChanged(sender, e);
+                }
+            }
         }
     }
 }

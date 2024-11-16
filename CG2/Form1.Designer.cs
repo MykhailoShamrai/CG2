@@ -70,6 +70,10 @@
             KdValueLabel = new Label();
             trackBarKd = new TrackBar();
             trackBarKs = new TrackBar();
+            tableLayoutPanel12 = new TableLayoutPanel();
+            UseImageCheckBox = new CheckBox();
+            ChangeImageButton = new Button();
+            tableLayoutPanel13 = new TableLayoutPanel();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -92,6 +96,7 @@
             tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarKd).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBarKs).BeginInit();
+            tableLayoutPanel12.SuspendLayout();
             SuspendLayout();
             // 
             // MainUnder
@@ -430,20 +435,24 @@
             tableLayoutPanel4.Controls.Add(tableLayoutPanel6, 0, 5);
             tableLayoutPanel4.Controls.Add(trackBarKd, 0, 6);
             tableLayoutPanel4.Controls.Add(trackBarKs, 0, 8);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel12, 0, 9);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel13, 0, 10);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(128, 3);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 10;
+            tableLayoutPanel4.RowCount = 12;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 7.23589F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 92.76411F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 37F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 31F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 381F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 115F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 61F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 195F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Size = new Size(103, 691);
             tableLayoutPanel4.TabIndex = 1;
@@ -464,11 +473,11 @@
             tableLayoutPanel7.Controls.Add(KsLabel, 0, 0);
             tableLayoutPanel7.Controls.Add(KsValueLabel, 1, 0);
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 251);
+            tableLayoutPanel7.Location = new Point(3, 260);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(97, 25);
+            tableLayoutPanel7.Size = new Size(97, 26);
             tableLayoutPanel7.TabIndex = 8;
             // 
             // KsLabel
@@ -486,7 +495,7 @@
             KsValueLabel.Dock = DockStyle.Fill;
             KsValueLabel.Location = new Point(39, 0);
             KsValueLabel.Name = "KsValueLabel";
-            KsValueLabel.Size = new Size(55, 25);
+            KsValueLabel.Size = new Size(55, 26);
             KsValueLabel.TabIndex = 1;
             KsValueLabel.Text = "1";
             // 
@@ -498,7 +507,7 @@
             DrawControlPointsCheck.Dock = DockStyle.Fill;
             DrawControlPointsCheck.Location = new Point(3, 8);
             DrawControlPointsCheck.Name = "DrawControlPointsCheck";
-            DrawControlPointsCheck.Size = new Size(97, 64);
+            DrawControlPointsCheck.Size = new Size(97, 67);
             DrawControlPointsCheck.TabIndex = 0;
             DrawControlPointsCheck.Text = "Draw control points";
             DrawControlPointsCheck.UseVisualStyleBackColor = true;
@@ -510,7 +519,7 @@
             DrawBordersOfTrianglesCheck.Checked = true;
             DrawBordersOfTrianglesCheck.CheckState = CheckState.Checked;
             DrawBordersOfTrianglesCheck.Dock = DockStyle.Fill;
-            DrawBordersOfTrianglesCheck.Location = new Point(3, 78);
+            DrawBordersOfTrianglesCheck.Location = new Point(3, 81);
             DrawBordersOfTrianglesCheck.Name = "DrawBordersOfTrianglesCheck";
             DrawBordersOfTrianglesCheck.Size = new Size(97, 50);
             DrawBordersOfTrianglesCheck.TabIndex = 1;
@@ -521,7 +530,7 @@
             // trackBarM
             // 
             trackBarM.Dock = DockStyle.Fill;
-            trackBarM.Location = new Point(3, 164);
+            trackBarM.Location = new Point(3, 174);
             trackBarM.Name = "trackBarM";
             trackBarM.Size = new Size(97, 24);
             trackBarM.TabIndex = 3;
@@ -535,11 +544,11 @@
             tableLayoutPanel5.Controls.Add(MLabel, 0, 0);
             tableLayoutPanel5.Controls.Add(MValueLabel, 1, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 134);
+            tableLayoutPanel5.Location = new Point(3, 137);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel5.Size = new Size(97, 24);
+            tableLayoutPanel5.Size = new Size(97, 31);
             tableLayoutPanel5.TabIndex = 4;
             // 
             // MLabel
@@ -557,7 +566,7 @@
             MValueLabel.Dock = DockStyle.Fill;
             MValueLabel.Location = new Point(39, 0);
             MValueLabel.Name = "MValueLabel";
-            MValueLabel.Size = new Size(55, 24);
+            MValueLabel.Size = new Size(55, 31);
             MValueLabel.TabIndex = 1;
             MValueLabel.Text = "1";
             // 
@@ -568,11 +577,11 @@
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.8865967F));
             tableLayoutPanel6.Controls.Add(KdLabel, 0, 0);
             tableLayoutPanel6.Controls.Add(KdValueLabel, 1, 0);
-            tableLayoutPanel6.Location = new Point(3, 194);
+            tableLayoutPanel6.Location = new Point(3, 204);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(97, 22);
+            tableLayoutPanel6.Size = new Size(97, 20);
             tableLayoutPanel6.TabIndex = 5;
             // 
             // KdLabel
@@ -590,26 +599,77 @@
             KdValueLabel.Dock = DockStyle.Fill;
             KdValueLabel.Location = new Point(39, 0);
             KdValueLabel.Name = "KdValueLabel";
-            KdValueLabel.Size = new Size(55, 22);
+            KdValueLabel.Size = new Size(55, 20);
             KdValueLabel.TabIndex = 7;
             KdValueLabel.Text = "1";
             // 
             // trackBarKd
             // 
             trackBarKd.Dock = DockStyle.Fill;
-            trackBarKd.Location = new Point(3, 222);
+            trackBarKd.Location = new Point(3, 230);
             trackBarKd.Name = "trackBarKd";
-            trackBarKd.Size = new Size(97, 23);
+            trackBarKd.Size = new Size(97, 24);
             trackBarKd.TabIndex = 6;
             trackBarKd.Scroll += trackBarKd_Scroll;
             // 
             // trackBarKs
             // 
-            trackBarKs.Location = new Point(3, 282);
+            trackBarKs.Location = new Point(3, 292);
             trackBarKs.Name = "trackBarKs";
             trackBarKs.Size = new Size(97, 24);
             trackBarKs.TabIndex = 9;
             trackBarKs.Scroll += trackBarKs_Scroll;
+            // 
+            // tableLayoutPanel12
+            // 
+            tableLayoutPanel12.ColumnCount = 1;
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 79.38145F));
+            tableLayoutPanel12.Controls.Add(UseImageCheckBox, 0, 0);
+            tableLayoutPanel12.Controls.Add(ChangeImageButton, 0, 1);
+            tableLayoutPanel12.Dock = DockStyle.Fill;
+            tableLayoutPanel12.Location = new Point(3, 322);
+            tableLayoutPanel12.Name = "tableLayoutPanel12";
+            tableLayoutPanel12.RowCount = 2;
+            tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
+            tableLayoutPanel12.Size = new Size(97, 109);
+            tableLayoutPanel12.TabIndex = 10;
+            // 
+            // UseImageCheckBox
+            // 
+            UseImageCheckBox.AutoSize = true;
+            UseImageCheckBox.Dock = DockStyle.Fill;
+            UseImageCheckBox.Location = new Point(3, 3);
+            UseImageCheckBox.Name = "UseImageCheckBox";
+            UseImageCheckBox.Size = new Size(91, 47);
+            UseImageCheckBox.TabIndex = 0;
+            UseImageCheckBox.Text = "Use image";
+            UseImageCheckBox.UseVisualStyleBackColor = true;
+            UseImageCheckBox.CheckedChanged += UseImageCheckBox_CheckedChanged;
+            // 
+            // ChangeImageButton
+            // 
+            ChangeImageButton.Dock = DockStyle.Fill;
+            ChangeImageButton.Location = new Point(3, 56);
+            ChangeImageButton.Name = "ChangeImageButton";
+            ChangeImageButton.Size = new Size(91, 50);
+            ChangeImageButton.TabIndex = 1;
+            ChangeImageButton.Text = "Change image";
+            ChangeImageButton.UseVisualStyleBackColor = true;
+            ChangeImageButton.Click += ChangeImageButton_Click;
+            // 
+            // tableLayoutPanel13
+            // 
+            tableLayoutPanel13.ColumnCount = 2;
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.86598F));
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.13402F));
+            tableLayoutPanel13.Dock = DockStyle.Fill;
+            tableLayoutPanel13.Location = new Point(3, 437);
+            tableLayoutPanel13.Name = "tableLayoutPanel13";
+            tableLayoutPanel13.RowCount = 1;
+            tableLayoutPanel13.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel13.Size = new Size(97, 55);
+            tableLayoutPanel13.TabIndex = 11;
             // 
             // ShapeForm
             // 
@@ -651,6 +711,8 @@
             tableLayoutPanel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarKd).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBarKs).EndInit();
+            tableLayoutPanel12.ResumeLayout(false);
+            tableLayoutPanel12.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -698,5 +760,9 @@
         private Label ChangeColorForSurface;
         private Panel ColorOfLightPanel;
         private Button SetLighColorButton;
+        private TableLayoutPanel tableLayoutPanel12;
+        private TableLayoutPanel tableLayoutPanel13;
+        private CheckBox UseImageCheckBox;
+        private Button ChangeImageButton;
     }
 }
