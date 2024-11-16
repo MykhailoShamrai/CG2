@@ -11,6 +11,7 @@ namespace CG2.Drawers
     public interface IColorer
     {
         public DirectBitmap? Image { get; set; }
+        public DirectBitmap? NormalMap { get; set; }
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }

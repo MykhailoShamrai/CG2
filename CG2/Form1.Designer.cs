@@ -55,6 +55,7 @@
             ColorOfLightPanel = new Panel();
             SetLighColorButton = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
+            ChangeNormalMapButton = new Button();
             trackBar3 = new TrackBar();
             tableLayoutPanel7 = new TableLayoutPanel();
             KsLabel = new Label();
@@ -74,6 +75,7 @@
             UseImageCheckBox = new CheckBox();
             ChangeImageButton = new Button();
             tableLayoutPanel13 = new TableLayoutPanel();
+            UseNormalMapCheckBox = new CheckBox();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -97,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)trackBarKd).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBarKs).BeginInit();
             tableLayoutPanel12.SuspendLayout();
+            tableLayoutPanel13.SuspendLayout();
             SuspendLayout();
             // 
             // MainUnder
@@ -426,6 +429,7 @@
             // 
             tableLayoutPanel4.ColumnCount = 1;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.Controls.Add(ChangeNormalMapButton, 0, 11);
             tableLayoutPanel4.Controls.Add(trackBar3, 0, 0);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel7, 0, 7);
             tableLayoutPanel4.Controls.Add(DrawControlPointsCheck, 0, 1);
@@ -451,11 +455,22 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 115F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 61F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 195F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 92F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 164F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Size = new Size(103, 691);
             tableLayoutPanel4.TabIndex = 1;
+            // 
+            // ChangeNormalMapButton
+            // 
+            ChangeNormalMapButton.Dock = DockStyle.Top;
+            ChangeNormalMapButton.Location = new Point(3, 529);
+            ChangeNormalMapButton.Name = "ChangeNormalMapButton";
+            ChangeNormalMapButton.Size = new Size(97, 80);
+            ChangeNormalMapButton.TabIndex = 12;
+            ChangeNormalMapButton.Text = "Change normal map";
+            ChangeNormalMapButton.UseVisualStyleBackColor = true;
+            ChangeNormalMapButton.Click += ChangeNormalMapButton_Click;
             // 
             // trackBar3
             // 
@@ -660,16 +675,28 @@
             // 
             // tableLayoutPanel13
             // 
-            tableLayoutPanel13.ColumnCount = 2;
+            tableLayoutPanel13.ColumnCount = 1;
             tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.86598F));
-            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.13402F));
+            tableLayoutPanel13.Controls.Add(UseNormalMapCheckBox, 0, 0);
             tableLayoutPanel13.Dock = DockStyle.Fill;
             tableLayoutPanel13.Location = new Point(3, 437);
             tableLayoutPanel13.Name = "tableLayoutPanel13";
             tableLayoutPanel13.RowCount = 1;
             tableLayoutPanel13.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel13.Size = new Size(97, 55);
+            tableLayoutPanel13.Size = new Size(97, 86);
             tableLayoutPanel13.TabIndex = 11;
+            // 
+            // UseNormalMapCheckBox
+            // 
+            UseNormalMapCheckBox.AutoSize = true;
+            UseNormalMapCheckBox.Dock = DockStyle.Fill;
+            UseNormalMapCheckBox.Location = new Point(3, 3);
+            UseNormalMapCheckBox.Name = "UseNormalMapCheckBox";
+            UseNormalMapCheckBox.Size = new Size(91, 80);
+            UseNormalMapCheckBox.TabIndex = 1;
+            UseNormalMapCheckBox.Text = "Use normal map";
+            UseNormalMapCheckBox.UseVisualStyleBackColor = true;
+            UseNormalMapCheckBox.CheckedChanged += UseNormalMapCheckBox_CheckedChanged;
             // 
             // ShapeForm
             // 
@@ -713,6 +740,8 @@
             ((System.ComponentModel.ISupportInitialize)trackBarKs).EndInit();
             tableLayoutPanel12.ResumeLayout(false);
             tableLayoutPanel12.PerformLayout();
+            tableLayoutPanel13.ResumeLayout(false);
+            tableLayoutPanel13.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -764,5 +793,7 @@
         private TableLayoutPanel tableLayoutPanel13;
         private CheckBox UseImageCheckBox;
         private Button ChangeImageButton;
+        private Button ChangeNormalMapButton;
+        private CheckBox UseNormalMapCheckBox;
     }
 }

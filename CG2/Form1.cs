@@ -3,6 +3,7 @@ using CG2.Shapes;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace CG2
@@ -10,6 +11,7 @@ namespace CG2
     public partial class ShapeForm : Form
     {
         private DirectBitmap _imageBitmap;
+        private DirectBitmap _normalMapBitmap;
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
         private Color _color = Color.CadetBlue;
         public LightSourceAnimator Animator { get; set; }
@@ -64,6 +66,8 @@ namespace CG2
             // 
             string path = Path.Combine(Directory.GetCurrentDirectory(), "images.jpg");
             _imageBitmap = ReturnImageInDirectBitmap(path);
+            path = Path.Combine(Directory.GetCurrentDirectory(), "earth-normalmap.jpg");
+            _normalMapBitmap = ReturnImageInDirectBitmap(path);
             Animate();
         }
 
@@ -232,6 +236,7 @@ namespace CG2
                 Colorer.Image = _imageBitmap;
             else
                 Colorer.Image = null;
+            PictureBoxMain.Invalidate();
         }
 
         private void ChangeImageButton_Click(object sender, EventArgs e)
@@ -245,6 +250,30 @@ namespace CG2
                     string filePath = dialog.FileName;
                     _imageBitmap = ReturnImageInDirectBitmap(filePath);
                     UseImageCheckBox_CheckedChanged(sender, e);
+                }
+            }
+        }
+
+        private void UseNormalMapCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UseNormalMapCheckBox.Checked)
+                Colorer.NormalMap = _normalMapBitmap;
+            else
+                Colorer.NormalMap = null;
+            PictureBoxMain.Invalidate();
+        }
+
+        private void ChangeNormalMapButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "All files (*.png;*.jpg)|*.png;*.jpg|png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
+                dialog.RestoreDirectory = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = dialog.FileName;
+                    _normalMapBitmap = ReturnImageInDirectBitmap(filePath);
+                    UseNormalMapCheckBox_CheckedChanged(sender, e);
                 }
             }
         }

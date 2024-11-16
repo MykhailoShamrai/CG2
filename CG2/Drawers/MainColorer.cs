@@ -12,6 +12,7 @@ namespace CG2.Drawers
     public class MainColorer : IColorer
     {
         public DirectBitmap? Image { get; set; } = null; 
+        public DirectBitmap? NormalMap { get; set; } = null;
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }
@@ -26,8 +27,10 @@ namespace CG2.Drawers
         public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
         {
             int dx = x2 - x1;
+            Color normInColors;
+            Vector3? norm = null;
             int k = dx < 0 ? -1 : 1;
-            Vector3 tmp = new Vector3(0 ,0, 0);
+            Vector3 tmp = new Vector3(0, 0, 0);
             while (x1 <= x2)
             {
                 tmp.X = x1;
@@ -35,16 +38,24 @@ namespace CG2.Drawers
                 var res = Triangle.ReturnBarycentricCoords(tmp, polygon);
                 if (Image != null)
                 {
-                    color = FindColorFromImage(res, polygon);
+                    color = FindColorFromImage(res, polygon, Image);
                 }
-                Color col = ReturnColor(res, lightSource.Position, polygon, color, lightSource.Color, Kd, Ks, M);
+                if (NormalMap != null)
+                {
+                    normInColors = FindColorFromImage(res, polygon, NormalMap);
+                    norm = new Vector3(
+                        (normInColors.R / 255f) * 2 - 1,
+                        (normInColors.G / 255f) * 2 - 1,
+                        (normInColors.B / 255f) * 2 - 1);
+                }
+                Color col = ReturnColor(res, lightSource.Position, polygon, color, lightSource.Color, Kd, Ks, M, norm);
                 
                 canvas.SetPixel(x1, y, col);
                 x1 += k;
             }
         }
 
-        private Color FindColorFromImage((float lam1, float lam2, float lam3) res, Triangle polygon)
+        private Color FindColorFromImage((float lam1, float lam2, float lam3) res, Triangle polygon, DirectBitmap Image)
         {
             var vertices = polygon.Points;
             float u = res.lam1 * vertices[0].U + res.lam2 * vertices[1].U + res.lam3 * vertices[2].U;
@@ -63,11 +74,27 @@ namespace CG2.Drawers
 
 
         public Color ReturnColor((float lam1, float lam2, float lam3) lambdas, Vector3 lightPos, Triangle tr,
-                                    Color color, Color lightColor, float kd, float ks, int m)
+                                    Color color, Color lightColor, float kd, float ks, int m, Vector3? nNormalMap = null)
         {
             Vector3 N = Vector3.Normalize(lambdas.lam1 * tr.Points[0].NAfter +
                                                 lambdas.lam2 * tr.Points[1].NAfter + 
                                                 lambdas.lam3 * tr.Points[2].NAfter);
+
+            if (nNormalMap != null)
+            {
+                Vector3 Pu = Vector3.Normalize(lambdas.lam1 * tr.Points[0].PuAfter +
+                                                 lambdas.lam2 * tr.Points[1].PuAfter +
+                                                 lambdas.lam3 * tr.Points[2].PuAfter);
+                Vector3 Pv = Vector3.Normalize(lambdas.lam1 * tr.Points[0].PvAfter +
+                                                 lambdas.lam2 * tr.Points[1].PvAfter +
+                                                 lambdas.lam3 * tr.Points[2].PvAfter);
+                Matrix4x4 matrix = new Matrix4x4(Pu.X, Pv.X, N.X, 0,
+                                                Pu.Y, Pv.Y, N.Y, 0,
+                                                Pu.Z, Pv.Z, N.Z, 0,
+                                                0, 0, 0, 1);
+                N = Vector3.Transform(nNormalMap.Value, matrix);
+            }
+
             Vector3 interploated = lambdas.lam1 * tr.Points[0].RotatedPosition +
                                     lambdas.lam2 * tr.Points[1].RotatedPosition +
                                     lambdas.lam3 * tr.Points[2].RotatedPosition;
