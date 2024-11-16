@@ -26,7 +26,8 @@ namespace CG2
                 Step = -Step;
             }
             
-            LightSource.Position = new Vector3(MathF.Cos(radAngle) * _radiusNow, MathF.Sin(radAngle) * _radiusNow, LightSource.Position.Z);  
+            lock(LightSource)
+                LightSource.Position = new Vector3(MathF.Cos(radAngle) * _radiusNow, MathF.Sin(radAngle) * _radiusNow, LightSource.Position.Z);  
         }
     }
 }

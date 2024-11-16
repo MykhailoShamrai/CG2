@@ -8,6 +8,7 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        private System.Timers.Timer _timer = new System.Timers.Timer(100);
         public LightSourceAnimator Animator { get; set; }
         public IColorer Colorer { get; set; }
         public DirectBitmap DirectBitmap { get; set; }
@@ -43,8 +44,8 @@ namespace CG2
             trackBarKs.Value = 100;
             // Starting values from trackbar
             Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value);
-            LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
-            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 1000, Step = 10};
+            LightSource = new LightSource { Position = new Vector3(0, 0, ChangeZTrack.Value), Color = Color.White };
+            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 1000, Step = 10 };
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
@@ -57,10 +58,9 @@ namespace CG2
 
         public void Animate()
         {
-            System.Timers.Timer timer = new System.Timers.Timer(100);
-            timer.Elapsed += Timer_Elapsed; 
-            timer.AutoReset = true;
-            timer.Enabled = true;
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
         }
 
         private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -106,14 +106,14 @@ namespace CG2
         private void TrackAroundZ_Scroll(object sender, EventArgs e)
         {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
-           
+
             PictureBoxMain.Invalidate();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
-           
+
             PictureBoxMain.Invalidate();
         }
 
@@ -155,6 +155,28 @@ namespace CG2
         {
             Colorer.Kd = (float)trackBarKd.Value / 100;
             KdValueLabel.Text = Colorer.Kd.ToString();
+            PictureBoxMain.Invalidate();
+        }
+
+        private void StartAnimationButton_Click(object sender, EventArgs e)
+        {
+            if (StartAnimationButton.Text == "Stop")
+            {
+                _timer.Stop();
+                StartAnimationButton.Text = "Start";
+            }
+            else
+            {
+                _timer.Start();
+                StartAnimationButton.Text = "Stop";
+            }
+        }
+
+        private void ChangeZTrack_Scroll(object sender, EventArgs e)
+        {
+            lock (LightSource)
+                LightSource.Position = new Vector3(LightSource.Position.X, LightSource.Position.Y, ChangeZTrack.Value);
+            ZAxisValue.Text = ChangeZTrack.Value.ToString();
             PictureBoxMain.Invalidate();
         }
     }

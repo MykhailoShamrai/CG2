@@ -40,6 +40,12 @@
             TrackAroundX = new TrackBar();
             LevelOfTriangulation = new Label();
             trackTriangulation = new TrackBar();
+            tableLayoutPanel8 = new TableLayoutPanel();
+            StartAnimationButton = new Button();
+            tableLayoutPanel9 = new TableLayoutPanel();
+            ZAxis = new Label();
+            ZAxisValue = new Label();
+            ChangeZTrack = new TrackBar();
             tableLayoutPanel4 = new TableLayoutPanel();
             trackBar3 = new TrackBar();
             tableLayoutPanel7 = new TableLayoutPanel();
@@ -65,6 +71,9 @@
             tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).BeginInit();
+            tableLayoutPanel8.SuspendLayout();
+            tableLayoutPanel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ChangeZTrack).BeginInit();
             tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
             tableLayoutPanel7.SuspendLayout();
@@ -177,15 +186,17 @@
             tableLayoutPanel3.Controls.Add(TrackAroundX, 0, 1);
             tableLayoutPanel3.Controls.Add(LevelOfTriangulation, 0, 2);
             tableLayoutPanel3.Controls.Add(trackTriangulation, 0, 3);
+            tableLayoutPanel3.Controls.Add(tableLayoutPanel8, 0, 5);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(3, 123);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 5;
+            tableLayoutPanel3.RowCount = 6;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 393F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 51F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 377F));
             tableLayoutPanel3.Size = new Size(113, 565);
             tableLayoutPanel3.TabIndex = 1;
             // 
@@ -206,7 +217,7 @@
             TrackAroundX.Location = new Point(3, 43);
             TrackAroundX.Minimum = -10;
             TrackAroundX.Name = "TrackAroundX";
-            TrackAroundX.Size = new Size(107, 34);
+            TrackAroundX.Size = new Size(107, 38);
             TrackAroundX.TabIndex = 2;
             TrackAroundX.Scroll += TrackAroundX_Scroll;
             // 
@@ -214,7 +225,7 @@
             // 
             LevelOfTriangulation.AutoSize = true;
             LevelOfTriangulation.Dock = DockStyle.Bottom;
-            LevelOfTriangulation.Location = new Point(3, 86);
+            LevelOfTriangulation.Location = new Point(3, 95);
             LevelOfTriangulation.Name = "LevelOfTriangulation";
             LevelOfTriangulation.Size = new Size(107, 40);
             LevelOfTriangulation.TabIndex = 3;
@@ -222,11 +233,88 @@
             // 
             // trackTriangulation
             // 
-            trackTriangulation.Location = new Point(3, 129);
+            trackTriangulation.Location = new Point(3, 138);
             trackTriangulation.Name = "trackTriangulation";
-            trackTriangulation.Size = new Size(107, 40);
+            trackTriangulation.Size = new Size(107, 39);
             trackTriangulation.TabIndex = 4;
             trackTriangulation.ValueChanged += trackTriangulation_ValueChanged;
+            // 
+            // tableLayoutPanel8
+            // 
+            tableLayoutPanel8.ColumnCount = 1;
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel8.Controls.Add(StartAnimationButton, 0, 0);
+            tableLayoutPanel8.Controls.Add(tableLayoutPanel9, 0, 1);
+            tableLayoutPanel8.Controls.Add(ChangeZTrack, 0, 2);
+            tableLayoutPanel8.Dock = DockStyle.Fill;
+            tableLayoutPanel8.Location = new Point(3, 191);
+            tableLayoutPanel8.Name = "tableLayoutPanel8";
+            tableLayoutPanel8.RowCount = 6;
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 51F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 47F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 181F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel8.Size = new Size(107, 371);
+            tableLayoutPanel8.TabIndex = 5;
+            // 
+            // StartAnimationButton
+            // 
+            StartAnimationButton.Dock = DockStyle.Fill;
+            StartAnimationButton.Location = new Point(3, 3);
+            StartAnimationButton.Name = "StartAnimationButton";
+            StartAnimationButton.Size = new Size(101, 34);
+            StartAnimationButton.TabIndex = 0;
+            StartAnimationButton.Text = "Stop";
+            StartAnimationButton.UseVisualStyleBackColor = true;
+            StartAnimationButton.Click += StartAnimationButton_Click;
+            // 
+            // tableLayoutPanel9
+            // 
+            tableLayoutPanel9.ColumnCount = 2;
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 64F));
+            tableLayoutPanel9.Controls.Add(ZAxis, 0, 0);
+            tableLayoutPanel9.Controls.Add(ZAxisValue, 1, 0);
+            tableLayoutPanel9.Dock = DockStyle.Fill;
+            tableLayoutPanel9.Location = new Point(3, 43);
+            tableLayoutPanel9.Name = "tableLayoutPanel9";
+            tableLayoutPanel9.RowCount = 1;
+            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.Size = new Size(101, 26);
+            tableLayoutPanel9.TabIndex = 1;
+            // 
+            // ZAxis
+            // 
+            ZAxis.AutoSize = true;
+            ZAxis.Dock = DockStyle.Fill;
+            ZAxis.Location = new Point(3, 0);
+            ZAxis.Name = "ZAxis";
+            ZAxis.Size = new Size(31, 26);
+            ZAxis.TabIndex = 0;
+            ZAxis.Text = "Z";
+            // 
+            // ZAxisValue
+            // 
+            ZAxisValue.AutoSize = true;
+            ZAxisValue.Dock = DockStyle.Fill;
+            ZAxisValue.Location = new Point(40, 0);
+            ZAxisValue.Name = "ZAxisValue";
+            ZAxisValue.Size = new Size(58, 26);
+            ZAxisValue.TabIndex = 1;
+            ZAxisValue.Text = "500";
+            // 
+            // ChangeZTrack
+            // 
+            ChangeZTrack.Dock = DockStyle.Fill;
+            ChangeZTrack.Location = new Point(3, 75);
+            ChangeZTrack.Maximum = 1000;
+            ChangeZTrack.Minimum = -1000;
+            ChangeZTrack.Name = "ChangeZTrack";
+            ChangeZTrack.Size = new Size(101, 45);
+            ChangeZTrack.TabIndex = 2;
+            ChangeZTrack.Scroll += ChangeZTrack_Scroll;
             // 
             // tableLayoutPanel4
             // 
@@ -443,6 +531,11 @@
             tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)TrackAroundX).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackTriangulation).EndInit();
+            tableLayoutPanel8.ResumeLayout(false);
+            tableLayoutPanel8.PerformLayout();
+            tableLayoutPanel9.ResumeLayout(false);
+            tableLayoutPanel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)ChangeZTrack).EndInit();
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
@@ -488,5 +581,11 @@
         private Label KsLabel;
         private Label KsValueLabel;
         private TrackBar trackBarKs;
+        private TableLayoutPanel tableLayoutPanel8;
+        private Button StartAnimationButton;
+        private TableLayoutPanel tableLayoutPanel9;
+        private Label ZAxis;
+        private Label ZAxisValue;
+        private TrackBar ChangeZTrack;
     }
 }
