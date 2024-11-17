@@ -9,29 +9,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="173932.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\173932.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="cute-honey-bee-png-jpg-free-stock-my-life-as-a-honey-bee-11563159806xjubu1stgz.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\another-survey-on-horror-in-the-fnaf-community-which-is-the-v0-t5cbnwiuxsec1.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\cute-honey-bee-png-jpg-free-stock-my-life-as-a-honey-bee-11563159806xjubu1stgz.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="earth-normalmap.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\earth-normalmap.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="images.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\images.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="normal_map-defaults.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\normal_map-defaults.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="normal_mapping_normal_map.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\normal_mapping_normal_map.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="ściana.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Images\ściana.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

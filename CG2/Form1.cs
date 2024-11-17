@@ -52,7 +52,7 @@ namespace CG2
             LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
             ChangeZTrack.Value = 1000;
             ZAxisValue.Text = ChangeZTrack.Value.ToString();
-            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 2000, Step = 10 };
+            Animator = new LightSourceAnimator { LightSource = LightSource, Radius = 3600, Step = 10 };
             DirectBitmap = new DirectBitmap(PictureBoxMain.Width, PictureBoxMain.Height);
             PictureBoxMain.Image = DirectBitmap.Bitmap;
             Plane = new MyPlane();
@@ -64,9 +64,9 @@ namespace CG2
             ColorOfSurfacePanel.BackColor = _color;
 
             // 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "images.jpg");
+            string path = Path.Combine("./Images", "cute-honey-bee-png-jpg-free-stock-my-life-as-a-honey-bee-11563159806xjubu1stgz.png");
             _imageBitmap = ReturnImageInDirectBitmap(path);
-            path = Path.Combine(Directory.GetCurrentDirectory(), "earth-normalmap.jpg");
+            path = Path.Combine("./Images", "normal_mapping_normal_map.png");
             _normalMapBitmap = ReturnImageInDirectBitmap(path);
             Animate();
         }
@@ -107,7 +107,7 @@ namespace CG2
                     string[] pointTmp;
                     while ((tmp = sr.ReadLine()!) != null)
                     {
-                        pointTmp = tmp.Split(',');
+                        pointTmp = tmp.Split(' ');
                         // Here must be a try/catch statement
                         listOfPoints.Add(new Vector3(float.Parse(pointTmp[0]),
                                                     float.Parse(pointTmp[1]),
@@ -243,6 +243,7 @@ namespace CG2
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
+                dialog.InitialDirectory = "./Images";
                 dialog.Filter = "All files (*.png;*.jpg)|*.png;*.jpg|png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
                 dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -267,6 +268,7 @@ namespace CG2
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
+                dialog.InitialDirectory = "./Images";
                 dialog.Filter = "All files (*.png;*.jpg)|*.png;*.jpg|png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
                 dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
