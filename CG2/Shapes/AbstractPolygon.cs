@@ -18,9 +18,5 @@ namespace CG2.Shapes
         }
 
         // Method for filling edges of a polygon
-        public virtual void VisitColorerEdges(IColorer colorer, LightSource lihgtSource, Color color, DirectBitmap canvas)
-        {
-            colorer.DrawLineBetween(lihgtSource, this, color, canvas);
-        }
     }
 }

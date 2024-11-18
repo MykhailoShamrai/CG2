@@ -76,6 +76,10 @@
             ChangeImageButton = new Button();
             tableLayoutPanel13 = new TableLayoutPanel();
             UseNormalMapCheckBox = new CheckBox();
+            tableLayoutPanel14 = new TableLayoutPanel();
+            LightOnCheckBox = new CheckBox();
+            ReflectorsOnCheckBox = new CheckBox();
+            numericUpDown1 = new NumericUpDown();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -100,6 +104,8 @@
             ((System.ComponentModel.ISupportInitialize)trackBarKs).BeginInit();
             tableLayoutPanel12.SuspendLayout();
             tableLayoutPanel13.SuspendLayout();
+            tableLayoutPanel14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // MainUnder
@@ -441,22 +447,24 @@
             tableLayoutPanel4.Controls.Add(trackBarKs, 0, 8);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel12, 0, 9);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel13, 0, 10);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel14, 0, 12);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(128, 3);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 12;
+            tableLayoutPanel4.RowCount = 13;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 7.23589F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 92.76411F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 37F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 59F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 115F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 92F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 164F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 123F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 57F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 94F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Size = new Size(103, 691);
             tableLayoutPanel4.TabIndex = 1;
@@ -464,9 +472,9 @@
             // ChangeNormalMapButton
             // 
             ChangeNormalMapButton.Dock = DockStyle.Top;
-            ChangeNormalMapButton.Location = new Point(3, 529);
+            ChangeNormalMapButton.Location = new Point(3, 542);
             ChangeNormalMapButton.Name = "ChangeNormalMapButton";
-            ChangeNormalMapButton.Size = new Size(97, 80);
+            ChangeNormalMapButton.Size = new Size(97, 51);
             ChangeNormalMapButton.TabIndex = 12;
             ChangeNormalMapButton.Text = "Change normal map";
             ChangeNormalMapButton.UseVisualStyleBackColor = true;
@@ -488,11 +496,11 @@
             tableLayoutPanel7.Controls.Add(KsLabel, 0, 0);
             tableLayoutPanel7.Controls.Add(KsValueLabel, 1, 0);
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 260);
+            tableLayoutPanel7.Location = new Point(3, 263);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(97, 26);
+            tableLayoutPanel7.Size = new Size(97, 30);
             tableLayoutPanel7.TabIndex = 8;
             // 
             // KsLabel
@@ -510,7 +518,7 @@
             KsValueLabel.Dock = DockStyle.Fill;
             KsValueLabel.Location = new Point(39, 0);
             KsValueLabel.Name = "KsValueLabel";
-            KsValueLabel.Size = new Size(55, 26);
+            KsValueLabel.Size = new Size(55, 30);
             KsValueLabel.TabIndex = 1;
             KsValueLabel.Text = "1";
             // 
@@ -522,7 +530,7 @@
             DrawControlPointsCheck.Dock = DockStyle.Fill;
             DrawControlPointsCheck.Location = new Point(3, 8);
             DrawControlPointsCheck.Name = "DrawControlPointsCheck";
-            DrawControlPointsCheck.Size = new Size(97, 67);
+            DrawControlPointsCheck.Size = new Size(97, 64);
             DrawControlPointsCheck.TabIndex = 0;
             DrawControlPointsCheck.Text = "Draw control points";
             DrawControlPointsCheck.UseVisualStyleBackColor = true;
@@ -534,9 +542,9 @@
             DrawBordersOfTrianglesCheck.Checked = true;
             DrawBordersOfTrianglesCheck.CheckState = CheckState.Checked;
             DrawBordersOfTrianglesCheck.Dock = DockStyle.Fill;
-            DrawBordersOfTrianglesCheck.Location = new Point(3, 81);
+            DrawBordersOfTrianglesCheck.Location = new Point(3, 78);
             DrawBordersOfTrianglesCheck.Name = "DrawBordersOfTrianglesCheck";
-            DrawBordersOfTrianglesCheck.Size = new Size(97, 50);
+            DrawBordersOfTrianglesCheck.Size = new Size(97, 53);
             DrawBordersOfTrianglesCheck.TabIndex = 1;
             DrawBordersOfTrianglesCheck.Text = "Draw borders";
             DrawBordersOfTrianglesCheck.UseVisualStyleBackColor = true;
@@ -545,7 +553,7 @@
             // trackBarM
             // 
             trackBarM.Dock = DockStyle.Fill;
-            trackBarM.Location = new Point(3, 174);
+            trackBarM.Location = new Point(3, 173);
             trackBarM.Name = "trackBarM";
             trackBarM.Size = new Size(97, 24);
             trackBarM.TabIndex = 3;
@@ -563,7 +571,7 @@
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel5.Size = new Size(97, 31);
+            tableLayoutPanel5.Size = new Size(97, 30);
             tableLayoutPanel5.TabIndex = 4;
             // 
             // MLabel
@@ -581,7 +589,7 @@
             MValueLabel.Dock = DockStyle.Fill;
             MValueLabel.Location = new Point(39, 0);
             MValueLabel.Name = "MValueLabel";
-            MValueLabel.Size = new Size(55, 31);
+            MValueLabel.Size = new Size(55, 30);
             MValueLabel.TabIndex = 1;
             MValueLabel.Text = "1";
             // 
@@ -592,7 +600,7 @@
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.8865967F));
             tableLayoutPanel6.Controls.Add(KdLabel, 0, 0);
             tableLayoutPanel6.Controls.Add(KdValueLabel, 1, 0);
-            tableLayoutPanel6.Location = new Point(3, 204);
+            tableLayoutPanel6.Location = new Point(3, 203);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
@@ -621,7 +629,7 @@
             // trackBarKd
             // 
             trackBarKd.Dock = DockStyle.Fill;
-            trackBarKd.Location = new Point(3, 230);
+            trackBarKd.Location = new Point(3, 233);
             trackBarKd.Name = "trackBarKd";
             trackBarKd.Size = new Size(97, 24);
             trackBarKd.TabIndex = 6;
@@ -629,7 +637,7 @@
             // 
             // trackBarKs
             // 
-            trackBarKs.Location = new Point(3, 292);
+            trackBarKs.Location = new Point(3, 299);
             trackBarKs.Name = "trackBarKs";
             trackBarKs.Size = new Size(97, 24);
             trackBarKs.TabIndex = 9;
@@ -642,12 +650,12 @@
             tableLayoutPanel12.Controls.Add(UseImageCheckBox, 0, 0);
             tableLayoutPanel12.Controls.Add(ChangeImageButton, 0, 1);
             tableLayoutPanel12.Dock = DockStyle.Fill;
-            tableLayoutPanel12.Location = new Point(3, 322);
+            tableLayoutPanel12.Location = new Point(3, 329);
             tableLayoutPanel12.Name = "tableLayoutPanel12";
             tableLayoutPanel12.RowCount = 2;
             tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
-            tableLayoutPanel12.Size = new Size(97, 109);
+            tableLayoutPanel12.Size = new Size(97, 117);
             tableLayoutPanel12.TabIndex = 10;
             // 
             // UseImageCheckBox
@@ -656,7 +664,7 @@
             UseImageCheckBox.Dock = DockStyle.Fill;
             UseImageCheckBox.Location = new Point(3, 3);
             UseImageCheckBox.Name = "UseImageCheckBox";
-            UseImageCheckBox.Size = new Size(91, 47);
+            UseImageCheckBox.Size = new Size(91, 55);
             UseImageCheckBox.TabIndex = 0;
             UseImageCheckBox.Text = "Use image";
             UseImageCheckBox.UseVisualStyleBackColor = true;
@@ -665,7 +673,7 @@
             // ChangeImageButton
             // 
             ChangeImageButton.Dock = DockStyle.Fill;
-            ChangeImageButton.Location = new Point(3, 56);
+            ChangeImageButton.Location = new Point(3, 64);
             ChangeImageButton.Name = "ChangeImageButton";
             ChangeImageButton.Size = new Size(91, 50);
             ChangeImageButton.TabIndex = 1;
@@ -679,11 +687,11 @@
             tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.86598F));
             tableLayoutPanel13.Controls.Add(UseNormalMapCheckBox, 0, 0);
             tableLayoutPanel13.Dock = DockStyle.Fill;
-            tableLayoutPanel13.Location = new Point(3, 437);
+            tableLayoutPanel13.Location = new Point(3, 452);
             tableLayoutPanel13.Name = "tableLayoutPanel13";
             tableLayoutPanel13.RowCount = 1;
             tableLayoutPanel13.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel13.Size = new Size(97, 86);
+            tableLayoutPanel13.Size = new Size(97, 84);
             tableLayoutPanel13.TabIndex = 11;
             // 
             // UseNormalMapCheckBox
@@ -692,11 +700,62 @@
             UseNormalMapCheckBox.Dock = DockStyle.Fill;
             UseNormalMapCheckBox.Location = new Point(3, 3);
             UseNormalMapCheckBox.Name = "UseNormalMapCheckBox";
-            UseNormalMapCheckBox.Size = new Size(91, 80);
+            UseNormalMapCheckBox.Size = new Size(91, 78);
             UseNormalMapCheckBox.TabIndex = 1;
             UseNormalMapCheckBox.Text = "Use normal map";
             UseNormalMapCheckBox.UseVisualStyleBackColor = true;
             UseNormalMapCheckBox.CheckedChanged += UseNormalMapCheckBox_CheckedChanged;
+            // 
+            // tableLayoutPanel14
+            // 
+            tableLayoutPanel14.ColumnCount = 3;
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.0196075F));
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.9803925F));
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel14.Controls.Add(LightOnCheckBox, 0, 0);
+            tableLayoutPanel14.Controls.Add(ReflectorsOnCheckBox, 1, 0);
+            tableLayoutPanel14.Controls.Add(numericUpDown1, 2, 0);
+            tableLayoutPanel14.Location = new Point(3, 599);
+            tableLayoutPanel14.Name = "tableLayoutPanel14";
+            tableLayoutPanel14.RowCount = 2;
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 38.2022476F));
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 61.7977524F));
+            tableLayoutPanel14.Size = new Size(97, 89);
+            tableLayoutPanel14.TabIndex = 13;
+            // 
+            // LightOnCheckBox
+            // 
+            LightOnCheckBox.AutoSize = true;
+            LightOnCheckBox.Checked = true;
+            LightOnCheckBox.CheckState = CheckState.Checked;
+            LightOnCheckBox.Dock = DockStyle.Fill;
+            LightOnCheckBox.Location = new Point(3, 3);
+            LightOnCheckBox.Name = "LightOnCheckBox";
+            LightOnCheckBox.Size = new Size(17, 28);
+            LightOnCheckBox.TabIndex = 0;
+            LightOnCheckBox.UseVisualStyleBackColor = true;
+            LightOnCheckBox.CheckedChanged += LightOnCheckBox_CheckedChanged;
+            // 
+            // ReflectorsOnCheckBox
+            // 
+            ReflectorsOnCheckBox.AutoSize = true;
+            ReflectorsOnCheckBox.Dock = DockStyle.Fill;
+            ReflectorsOnCheckBox.Location = new Point(26, 3);
+            ReflectorsOnCheckBox.Name = "ReflectorsOnCheckBox";
+            ReflectorsOnCheckBox.Size = new Size(17, 28);
+            ReflectorsOnCheckBox.TabIndex = 1;
+            ReflectorsOnCheckBox.UseVisualStyleBackColor = true;
+            ReflectorsOnCheckBox.CheckedChanged += ReflectorsOnCheckBox_CheckedChanged;
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(49, 3);
+            numericUpDown1.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(45, 27);
+            numericUpDown1.TabIndex = 2;
+            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // ShapeForm
             // 
@@ -742,6 +801,9 @@
             tableLayoutPanel12.PerformLayout();
             tableLayoutPanel13.ResumeLayout(false);
             tableLayoutPanel13.PerformLayout();
+            tableLayoutPanel14.ResumeLayout(false);
+            tableLayoutPanel14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
         }
 
@@ -795,5 +857,9 @@
         private Button ChangeImageButton;
         private Button ChangeNormalMapButton;
         private CheckBox UseNormalMapCheckBox;
+        private TableLayoutPanel tableLayoutPanel14;
+        private CheckBox LightOnCheckBox;
+        private CheckBox ReflectorsOnCheckBox;
+        private NumericUpDown numericUpDown1;
     }
 }

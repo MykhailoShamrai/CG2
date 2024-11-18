@@ -10,6 +10,7 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
+        private bool _lightOn = true;
         private DirectBitmap _imageBitmap;
         private DirectBitmap _normalMapBitmap;
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
@@ -278,6 +279,20 @@ namespace CG2
                     UseNormalMapCheckBox_CheckedChanged(sender, e);
                 }
             }
+        }
+
+        private void LightOnCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            lock(LightSource)
+            {
+                LightSource.IsOn = Math.Abs(1 - LightSource.IsOn);
+            }
+            PictureBoxMain.Invalidate();
+        }
+
+        private void ReflectorsOnCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -29,11 +29,6 @@ namespace CG2.Shapes
             colorer.DrawHorizontalLineBetween(lightSource, this, x1, x2, y, color, canvas);
         }
 
-        public override void VisitColorerEdges(IColorer colorer, LightSource lightSource, Color color, DirectBitmap canvas)
-        {
-            colorer.DrawLineBetween(lightSource, this, color, canvas);
-        }
-
         public static (float lam1, float lam2, float lam3) ReturnBarycentricCoords(Vector3 point, Triangle polygon)
         {
             Vector3 a = new Vector3(polygon.Points[0].RotatedPosition.X, polygon.Points[0].RotatedPosition.Y, 0);

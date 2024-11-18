@@ -11,5 +11,6 @@ namespace CG2
     {
         public Vector3 Position { get; set; }
         public Color Color { get; set; }
+        public int IsOn { get; set; } = 1; // 1 or 0
     }
 }
