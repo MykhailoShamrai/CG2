@@ -13,12 +13,12 @@ namespace CG2.Drawers
     {
         public DirectBitmap? Image { get; set; } = null;
         public DirectBitmap? NormalMap { get; set; } = null;
-        public float Mdirect { get; set; }
+        public int Mdirect { get; set; }
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }
 
-        public MainColorer(float kd, float ks, int m, float mdirect)
+        public MainColorer(float kd, float ks, int m, int mdirect)
         {
             Kd = kd;
             Ks = ks;
@@ -51,9 +51,11 @@ namespace CG2.Drawers
                         (normInColors.B / 255f) * 2 - 1);
                 }
                 Vector3 col = ReturnColor(res, lightSource, polygon, color, Kd, Ks, M, norm);
-                col += ReturnColor(res, directs[0], polygon, color, Kd, Ks, M, norm);
-                col += ReturnColor(res, directs[1], polygon, color, Kd, Ks, M, norm);
-                col += ReturnColor(res, directs[2], polygon, color, Kd, Ks, M, norm);
+                foreach (var light in directs)
+                {
+                    col += ReturnColor(res, light, polygon, color, Kd, Ks, Mdirect, norm);
+                }
+               
 
                 col = Vector3.Clamp(col, new Vector3(0, 0, 0), new Vector3(255, 255, 255));
                 

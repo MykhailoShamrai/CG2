@@ -49,7 +49,7 @@ namespace CG2
             trackBarKs.Maximum = 100;
             trackBarKs.Value = 100;
             // Starting values from trackbar
-            Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value, (float)numericUpDownM.Value);
+            Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value, (int)numericUpDownM.Value);
             LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
             ChangeZTrack.Value = 1000;
             ZAxisValue.Text = ChangeZTrack.Value.ToString();
@@ -207,6 +207,12 @@ namespace CG2
         {
             lock (LightSource)
                 LightSource.Position = new Vector3(LightSource.Position.X, LightSource.Position.Y, ChangeZTrack.Value);
+            foreach (var light in lightSourceDirects)
+            {
+                light.Position = new Vector3(light.Position.X, light.Position.Y, ChangeZTrack.Value);
+                light.Lr = Vector3.Normalize(light.Position);
+            }
+
             ZAxisValue.Text = ChangeZTrack.Value.ToString();
             PictureBoxMain.Invalidate();
         }
@@ -286,7 +292,7 @@ namespace CG2
 
         private void LightOnCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            lock(LightSource)
+            lock (LightSource)
             {
                 LightSource.IsOn = Math.Abs(1 - LightSource.IsOn);
             }
@@ -295,7 +301,17 @@ namespace CG2
 
         private void ReflectorsOnCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            foreach (var lightSource in lightSourceDirects)
+            {
+                lightSource.IsOn = Math.Abs(1 - lightSource.IsOn);
+            }
+            PictureBoxMain.Invalidate();
+        }
 
+        private void numericUpDownM_ValueChanged(object sender, EventArgs e)
+        {
+            Colorer.Mdirect = (int)numericUpDownM.Value;
+            PictureBoxMain.Invalidate();
         }
     }
 }

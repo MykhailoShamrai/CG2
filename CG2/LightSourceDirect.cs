@@ -12,7 +12,8 @@ namespace CG2
         public Vector3 Lr { get; set; }
         public LightSourceDirect(Vector3 pos, Color color)
         {
-            IsOn = 1;
+            
+            IsOn = 0;
             Position = pos;
             Lr = Vector3.Normalize(pos);
             this.Color = color;

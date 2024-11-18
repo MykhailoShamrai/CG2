@@ -756,6 +756,7 @@
             numericUpDownM.Size = new Size(45, 27);
             numericUpDownM.TabIndex = 2;
             numericUpDownM.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownM.ValueChanged += numericUpDownM_ValueChanged;
             // 
             // ShapeForm
             // 
