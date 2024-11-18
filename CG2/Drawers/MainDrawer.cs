@@ -31,9 +31,9 @@ namespace CG2.Drawers
             Colorer = colorer;
         }
 
-        public void Draw(Graphics g, LightSource lightSource, Color color)
+        public void Draw(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources)
         {
-            FillTrianglesAccordingToLightSource(g, lightSource, color);
+            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources);
             if (DrawBordersBool) 
                 DrawBordersOfTriangles(g);
             if (DrawControlPointsBool)
@@ -110,7 +110,7 @@ namespace CG2.Drawers
             Array.Sort<MyVertex, int>(tmp, res, new MyComparer());
             return res;
         }
-        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, LightSource lightSource, Color color, DirectBitmap canvas)
+        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, LightSource lightSource, Color color, DirectBitmap canvas, LightSourceDirect[] directs)
         {
             MyVertex[] vertices = polygon.Points;
             MyEdge[] edges = polygon.Edges;
@@ -133,7 +133,7 @@ namespace CG2.Drawers
                         float x2 = vertices[indices[i - 1]].RotatedPosition.X;
                         (x1, x2) = x1 < x2 ? (x1, x2) : (x2, x1);
                         polygon.VisitColorer(colorer, lightSource, (int)MathF.Ceiling(x1),
-                                                                (int)MathF.Round(x2), y, color, canvas);
+                                                                (int)MathF.Round(x2), y, color, canvas, directs);
                     }
                     flag = true;
                     // Check if we should add lines
@@ -182,7 +182,7 @@ namespace CG2.Drawers
                 // After we had sorted everything, we must paint every pixel that is to be painted!!!
                 for (int j = 0; j < list.Count; j += 2)
                 {
-                    polygon.VisitColorer(colorer, lightSource, (int)MathF.Ceiling(list[j].x), (int)MathF.Round(list[j + 1].x), y, color, canvas);
+                    polygon.VisitColorer(colorer, lightSource, (int)MathF.Ceiling(list[j].x), (int)MathF.Round(list[j + 1].x), y, color, canvas, directs);
                     list[j].x = list[j].x + list[j].dxdy;
                     list[j + 1].x = list[j + 1].x + list[j + 1].dxdy;
                 }
@@ -206,10 +206,10 @@ namespace CG2.Drawers
             }
         }
 
-        public void FillTrianglesAccordingToLightSource(Graphics g, LightSource lightSource, Color color)
+        public void FillTrianglesAccordingToLightSource(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directs)
         {
             foreach (var triangle in Plane.Triangles)
-                ColorAPolygon(Colorer, triangle, lightSource, color, Canvas);
+                ColorAPolygon(Colorer, triangle, lightSource, color, Canvas, directs);
         }
     }
 }

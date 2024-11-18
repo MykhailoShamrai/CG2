@@ -24,9 +24,9 @@ namespace CG2.Shapes
             Edges[2] = new MyEdge(third, first);
         }
 
-        public override void VisitColorer(IColorer colorer, LightSource lightSource, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public override void VisitColorer(IColorer colorer, LightSource lightSource, int x1, int x2, int y, Color color, DirectBitmap canvas, LightSourceDirect[] directs)
         {
-            colorer.DrawHorizontalLineBetween(lightSource, this, x1, x2, y, color, canvas);
+            colorer.DrawHorizontalLineBetween(lightSource, this, x1, x2, y, color, canvas, directs);
         }
 
         public static (float lam1, float lam2, float lam3) ReturnBarycentricCoords(Vector3 point, Triangle polygon)

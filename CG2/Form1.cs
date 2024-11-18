@@ -10,7 +10,7 @@ namespace CG2
 {
     public partial class ShapeForm : Form
     {
-        private bool _lightOn = true;
+        private LightSourceDirect[] lightSourceDirects { get; set; } = new LightSourceDirect[3];
         private DirectBitmap _imageBitmap;
         private DirectBitmap _normalMapBitmap;
         private System.Timers.Timer _timer = new System.Timers.Timer(100);
@@ -49,7 +49,7 @@ namespace CG2
             trackBarKs.Maximum = 100;
             trackBarKs.Value = 100;
             // Starting values from trackbar
-            Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value);
+            Colorer = new MainColorer(trackBarKd.Value / 100, trackBarKs.Value / 100, trackBarM.Value, (float)numericUpDownM.Value);
             LightSource = new LightSource { Position = new Vector3(0, 0, 1000), Color = Color.White };
             ChangeZTrack.Value = 1000;
             ZAxisValue.Text = ChangeZTrack.Value.ToString();
@@ -64,7 +64,10 @@ namespace CG2
             ColorOfLightPanel.BackColor = LightSource.Color;
             ColorOfSurfacePanel.BackColor = _color;
 
-            // 
+            lightSourceDirects[0] = new LightSourceDirect(new Vector3(-400, 400, 1000), Color.Red);
+            lightSourceDirects[1] = new LightSourceDirect(new Vector3(-400, -400, 1000), Color.Green);
+            lightSourceDirects[2] = new LightSourceDirect(new Vector3(400, -400, 1000), Color.Blue);
+
             string path = Path.Combine("./Images", "cute-honey-bee-png-jpg-free-stock-my-life-as-a-honey-bee-11563159806xjubu1stgz.png");
             _imageBitmap = ReturnImageInDirectBitmap(path);
             path = Path.Combine("./Images", "normal_mapping_normal_map.png");
@@ -126,7 +129,7 @@ namespace CG2
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
-                MainDrawer.Draw(g, LightSource, _color);
+                MainDrawer.Draw(g, LightSource, _color, lightSourceDirects);
             }
             e.Graphics.DrawImage(PictureBoxMain.Image, 0, 0);
         }

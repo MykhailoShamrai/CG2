@@ -13,18 +13,20 @@ namespace CG2.Drawers
     {
         public DirectBitmap? Image { get; set; } = null;
         public DirectBitmap? NormalMap { get; set; } = null;
+        public float Mdirect { get; set; }
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }
 
-        public MainColorer(float kd, float ks, int m)
+        public MainColorer(float kd, float ks, int m, float mdirect)
         {
             Kd = kd;
             Ks = ks;
             M = m;
+            Mdirect = mdirect;
         }
 
-        public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas, LightSourceDirect[] directs)
         {
             int dx = x2 - x1;
             Color normInColors;
@@ -48,9 +50,14 @@ namespace CG2.Drawers
                         (normInColors.G / 255f) * 2 - 1,
                         (normInColors.B / 255f) * 2 - 1);
                 }
-                Color col = ReturnColor(res, lightSource, polygon, color, Kd, Ks, M, norm);
+                Vector3 col = ReturnColor(res, lightSource, polygon, color, Kd, Ks, M, norm);
+                col += ReturnColor(res, directs[0], polygon, color, Kd, Ks, M, norm);
+                col += ReturnColor(res, directs[1], polygon, color, Kd, Ks, M, norm);
+                col += ReturnColor(res, directs[2], polygon, color, Kd, Ks, M, norm);
 
-                canvas.SetPixel(x1, y, col);
+                col = Vector3.Clamp(col, new Vector3(0, 0, 0), new Vector3(255, 255, 255));
+                
+                canvas.SetPixel(x1, y, Color.FromArgb((int)col.X, (int)col.Y, (int)col.Z));
                 x1 += k;
             }
         }
@@ -68,12 +75,12 @@ namespace CG2.Drawers
             return col;
         }
 
-        public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas)
+        public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas, LightSourceDirect[] directs)
         {
         }
 
 
-        public Color ReturnColor((float lam1, float lam2, float lam3) lambdas, LightSource lightSource, Triangle tr,
+        public Vector3 ReturnColor((float lam1, float lam2, float lam3) lambdas, LightSource lightSource, Triangle tr,
                                     Color color, float kd, float ks, int m, Vector3? nNormalMap = null)
         {
             Vector3 lightPos = lightSource.Position;
@@ -106,7 +113,7 @@ namespace CG2.Drawers
             Vector3 V = new Vector3(0, 0, 1);
             float cos1 = Vector3.Dot(N, L);
             cos1 = cos1 < 0 ? 0 : cos1;
-            float cos2 = Vector3.Dot(V, R);
+            float cos2 = ReturnCosForLight(lightSource, V, R, L);
             cos2 = MathF.Pow(cos2, m);
             cos2 = cos2 < 0 ? 0 : cos2;
             float rO = (float)color.R / 255;
@@ -127,7 +134,18 @@ namespace CG2.Drawers
             g = g > 255 ? 255 : g;
             b = b * 255;
             b = b > 255 ? 255 : b;
-            return Color.FromArgb((int)r, (int)g, (int)b);
+            return new Vector3(r, g, b);
+            //return Color.FromArgb((int)r, (int)g, (int)b);
+        }
+
+        public float ReturnCosForLight(LightSource lightSource, Vector3 V, Vector3 R, Vector3 L)
+        {
+            return Vector3.Dot(V, R);
+        }
+
+        public float ReturnCosForLight(LightSourceDirect lightSource, Vector3 V, Vector3 R, Vector3 L)
+        {
+            return Vector3.Dot(L, lightSource.Lr);
         }
 
         // This part of code is unused, but I leave it, may be in future I'll need it

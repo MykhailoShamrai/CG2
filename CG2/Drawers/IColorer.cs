@@ -15,7 +15,7 @@ namespace CG2.Drawers
         public float Kd { get; set; }
         public float Ks { get; set; }
         public int M { get; set; }
-        public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas);
-        public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas);
+        public void DrawHorizontalLineBetween(LightSource lightSource, AbstractPolygon polygon, int x1, int x2, int y, Color color, DirectBitmap canvas, LightSourceDirect[] direct);
+        public void DrawHorizontalLineBetween(LightSource lightSource, Triangle polygon, int x1, int x2, int y, Color color, DirectBitmap canvas, LightSourceDirect[] directs);
     }
 }

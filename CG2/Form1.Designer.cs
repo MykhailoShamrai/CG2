@@ -79,7 +79,7 @@
             tableLayoutPanel14 = new TableLayoutPanel();
             LightOnCheckBox = new CheckBox();
             ReflectorsOnCheckBox = new CheckBox();
-            numericUpDown1 = new NumericUpDown();
+            numericUpDownM = new NumericUpDown();
             MainUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxMain).BeginInit();
             RightLayout.SuspendLayout();
@@ -105,7 +105,7 @@
             tableLayoutPanel12.SuspendLayout();
             tableLayoutPanel13.SuspendLayout();
             tableLayoutPanel14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownM).BeginInit();
             SuspendLayout();
             // 
             // MainUnder
@@ -714,7 +714,7 @@
             tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             tableLayoutPanel14.Controls.Add(LightOnCheckBox, 0, 0);
             tableLayoutPanel14.Controls.Add(ReflectorsOnCheckBox, 1, 0);
-            tableLayoutPanel14.Controls.Add(numericUpDown1, 2, 0);
+            tableLayoutPanel14.Controls.Add(numericUpDownM, 2, 0);
             tableLayoutPanel14.Location = new Point(3, 599);
             tableLayoutPanel14.Name = "tableLayoutPanel14";
             tableLayoutPanel14.RowCount = 2;
@@ -747,15 +747,15 @@
             ReflectorsOnCheckBox.UseVisualStyleBackColor = true;
             ReflectorsOnCheckBox.CheckedChanged += ReflectorsOnCheckBox_CheckedChanged;
             // 
-            // numericUpDown1
+            // numericUpDownM
             // 
-            numericUpDown1.Location = new Point(49, 3);
-            numericUpDown1.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(45, 27);
-            numericUpDown1.TabIndex = 2;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownM.Location = new Point(49, 3);
+            numericUpDownM.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            numericUpDownM.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownM.Name = "numericUpDownM";
+            numericUpDownM.Size = new Size(45, 27);
+            numericUpDownM.TabIndex = 2;
+            numericUpDownM.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // ShapeForm
             // 
@@ -803,7 +803,7 @@
             tableLayoutPanel13.PerformLayout();
             tableLayoutPanel14.ResumeLayout(false);
             tableLayoutPanel14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownM).EndInit();
             ResumeLayout(false);
         }
 
@@ -860,6 +860,6 @@
         private TableLayoutPanel tableLayoutPanel14;
         private CheckBox LightOnCheckBox;
         private CheckBox ReflectorsOnCheckBox;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown numericUpDownM;
     }
 }
