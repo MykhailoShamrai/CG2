@@ -3,6 +3,7 @@ using CG2.Shapes;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
@@ -22,6 +23,8 @@ namespace CG2
         public Cube CubeMain { get; set; }
         public MainDrawer MainDrawer { get; set; }
         public LightSource LightSource { get; set; }
+
+        public float[,] ZBuffor; 
         public ShapeForm()
         {
             InitializeComponent();
@@ -68,6 +71,10 @@ namespace CG2
             ColorOfLightPanel.BackColor = LightSource.Color;
             ColorOfSurfacePanel.BackColor = _color;
 
+            ZBuffor = new float[PictureBoxMain.Width, PictureBoxMain.Height];
+            
+
+
             lightSourceDirects[0] = new LightSourceDirect(new Vector3(-400, 400, 1000), Color.Red);
             lightSourceDirects[1] = new LightSourceDirect(new Vector3(-400, -400, 1000), Color.Green);
             lightSourceDirects[2] = new LightSourceDirect(new Vector3(400, -400, 1000), Color.Blue);
@@ -77,6 +84,27 @@ namespace CG2
             path = Path.Combine("./Images", "normal_mapping_normal_map.png");
             _normalMapBitmap = ReturnImageInDirectBitmap(path);
             Animate();
+        }
+
+        public static void ClearZBuffor(ref float[,] zBuffor)
+        {
+            for (int i = 0; i < zBuffor.GetLength(0); i++)
+            {
+                for (int j = 0; j < zBuffor.GetLength(0); j++)
+                {
+                    zBuffor[i, j] = float.MinValue;
+                }
+            }
+        }
+
+        public static bool CheckZBuffor(ref float[,] zBuffor, float z, int i, int j)
+        {
+            if (z <= 0 && z > zBuffor[i, j])
+            {
+                zBuffor[i, j] = z;
+                return true;
+            }
+            return false;           
         }
 
         public void Animate()
@@ -135,10 +163,12 @@ namespace CG2
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
                 // Good place for z-buffor
 
-                MainDrawer.Draw(g, LightSource, _color, lightSourceDirects);
+                ClearZBuffor(ref ZBuffor);
+                
+                MainDrawer.Draw(g, LightSource, _color, lightSourceDirects, ref ZBuffor);
                 foreach (var drawer in CubeMain.drawers)
                 {
-                    drawer.DrawCube(g, LightSource, Color.Red, lightSourceDirects);
+                    drawer.DrawCube(g, LightSource, Color.Red, lightSourceDirects, ref ZBuffor);
                 }
             }
             e.Graphics.DrawImage(PictureBoxMain.Image, 0, 0);

@@ -31,9 +31,9 @@ namespace CG2.Drawers
             Colorer = colorer;
         }
 
-        public void Draw(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources)
+        public void Draw(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources, ref float[,] zBuffor)
         {
-            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources);
+            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources, ref zBuffor);
             if (DrawBordersBool) 
                 DrawBordersOfTriangles(g);
             if (DrawControlPointsBool)
@@ -41,9 +41,9 @@ namespace CG2.Drawers
         }
 
         // Hardcoded
-        public void DrawCube (Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources)
+        public void DrawCube (Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources, ref float[,] zBuffor)
         {
-            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources);
+            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources, ref zBuffor);
             if (DrawBordersBool)
                 DrawBordersOfTriangles(g);
             if (DrawControlPointsBool)
@@ -120,8 +120,9 @@ namespace CG2.Drawers
             Array.Sort<MyVertex, int>(tmp, res, new MyComparer());
             return res;
         }
-        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, LightSource lightSource, Color color, DirectBitmap canvas, LightSourceDirect[] directs)
+        public static void ColorAPolygon(IColorer colorer, AbstractPolygon polygon, LightSource lightSource, Color color, DirectBitmap canvas, LightSourceDirect[] directs, ref float[,] ZBuffor)
         {
+            
             MyVertex[] vertices = polygon.Points;
             MyEdge[] edges = polygon.Edges;
             List<AET> list = new List<AET>();
@@ -216,10 +217,10 @@ namespace CG2.Drawers
             }
         }
 
-        public void FillTrianglesAccordingToLightSource(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directs)
+        public void FillTrianglesAccordingToLightSource(Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directs, ref float[,] ZBuffor)
         {
             foreach (var triangle in Plane.Triangles)
-                ColorAPolygon(Colorer, triangle, lightSource, color, Canvas, directs);
+                ColorAPolygon(Colorer, triangle, lightSource, color, Canvas, directs, ref ZBuffor);
         }
     }
 }
