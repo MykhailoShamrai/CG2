@@ -40,25 +40,35 @@ namespace CG2.Drawers
                 DrawControlPoints(g);
         }
 
-        public void DrawControlPoints(Graphics g, int size = 4)
+        // Hardcoded
+        public void DrawCube (Graphics g, LightSource lightSource, Color color, LightSourceDirect[] directSources)
+        {
+            FillTrianglesAccordingToLightSource(g, lightSource, color, directSources);
+            if (DrawBordersBool)
+                DrawBordersOfTriangles(g);
+            if (DrawControlPointsBool)
+                DrawControlPoints(g, 2, 2);
+        }
+
+        public void DrawControlPoints(Graphics g, int size_x = 4, int size_y = 4)
         {
             // I assume, that I have 16 control points.
             Vector3 tmp;
             Vector3 tmp2;
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size_x; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < size_y; j++)
                 {
-                    tmp = Plane.RotatedControlPoints[size * i + j];
+                    tmp = Plane.RotatedControlPoints[size_y * i + j];
                     g.DrawEllipse(_controlPen, tmp.X - 2, tmp.Y - 2, 4, 4);
                     if ((j - 1) >= 0)
                     {
-                        tmp2 = Plane.RotatedControlPoints[size * i + j - 1];
+                        tmp2 = Plane.RotatedControlPoints[size_y * i + j - 1];
                         g.DrawLine(_controlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                     if ((i - 1) >= 0)
                     {
-                        tmp2 = Plane.RotatedControlPoints[size * (i - 1)  + j];
+                        tmp2 = Plane.RotatedControlPoints[size_y * (i - 1)  + j];
                         g.DrawLine(_controlPen, tmp.X, tmp.Y, tmp2.X, tmp2.Y);
                     }
                 }

@@ -19,6 +19,7 @@ namespace CG2
         public IColorer Colorer { get; set; }
         public DirectBitmap DirectBitmap { get; set; }
         public MyPlane Plane { get; set; }
+        public Cube CubeMain { get; set; }
         public MainDrawer MainDrawer { get; set; }
         public LightSource LightSource { get; set; }
         public ShapeForm()
@@ -61,6 +62,9 @@ namespace CG2
             Plane.RotatedControlPoints = new List<Vector3>(Plane.ControlPoints);
             Plane.Triangularization();
             MainDrawer = new MainDrawer(Plane, DirectBitmap, Colorer);
+
+            CubeMain = new Cube(DirectBitmap, Colorer, 6);
+
             ColorOfLightPanel.BackColor = LightSource.Color;
             ColorOfSurfacePanel.BackColor = _color;
 
@@ -129,7 +133,13 @@ namespace CG2
                 g.Clear(Color.WhiteSmoke);
                 g.ScaleTransform(1, -1);
                 g.TranslateTransform((float)PictureBoxMain.Width / 2, -(float)PictureBoxMain.Height / 2);
+                // Good place for z-buffor
+
                 MainDrawer.Draw(g, LightSource, _color, lightSourceDirects);
+                foreach (var drawer in CubeMain.drawers)
+                {
+                    drawer.DrawCube(g, LightSource, Color.Red, lightSourceDirects);
+                }
             }
             e.Graphics.DrawImage(PictureBoxMain.Image, 0, 0);
         }
@@ -138,12 +148,20 @@ namespace CG2
         {
             Plane.ZAngle = (float)TrackAroundZ.Value / 1000;
 
+            foreach (var plane in CubeMain.planes)
+            {
+                plane.ZAngle = (float)TrackAroundZ.Value / 1000;
+            }
             PictureBoxMain.Invalidate();
         }
 
         private void TrackAroundX_Scroll(object sender, EventArgs e)
         {
             Plane.XAngle = (float)TrackAroundX.Value / 1000;
+            foreach (var plane in CubeMain.planes)
+            {
+                plane.XAngle = (float)TrackAroundX.Value / 1000;
+            }
 
             PictureBoxMain.Invalidate();
         }

@@ -31,7 +31,8 @@ namespace CG2.Shapes
             }
         }
         private readonly int _baseDimTriang = 4;
-        private readonly int _dim = 4;
+        public int _dim_n = 4;
+        public int _dim_m = 4;
         public List<Vector3> ControlPoints { get; set; }
         public List<Vector3> RotatedControlPoints { get; set; }
         public List<Triangle> Triangles { get; set; }
@@ -130,8 +131,8 @@ namespace CG2.Shapes
             // Is implemented only adding points to triangles. Now I want to check if it works
             Triangles.Clear();
             int nn = _baseDimTriang * (1 << LevelOfTriang);
-            int m = _dim;
-            int n = _dim;
+            int m = _dim_m;
+            int n = _dim_n;
             float kk = 1f / nn; // in my case it's always is power of 2
             MyVertex[] points = new MyVertex[nn + 1];
             MyVertex[] newPoints = new MyVertex[nn + 1];
